@@ -1,0 +1,21 @@
+\providecommand{\projectroot}{.}
+\documentclass[lualatex,ja=standard]{bxjsarticle}
+
+% --- 設定読み込み (src/includes/) ---
+\input{\projectroot/includes/protocol.tex}
+\input{\projectroot/includes/preamble.tex}
+
+
+\begin{document}
+% 章を追加したらここに \subfile を足す
+\subfile{chapters/ch01.tex}
+
+
+% ===== JPTeX auto: ch02 =====
+\clearpage%
+\label{jptex@pageStart@ch02}%
+\label{jptex@sectionBefore@ch02}
+\subfile{chapters/ch02.tex}
+
+
+\end{document}

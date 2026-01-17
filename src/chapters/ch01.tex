@@ -1,0 +1,692 @@
+\providecommand{\projectroot}{..}
+\documentclass[\projectroot/main.tex]{subfiles}
+
+\begin{document}
+%$\xoverline{z}$              % 普通の z̄ より少し長い
+%$\xoverline[4mu]{x+iy}$       % さらに長く
+%$\dblbar{z}$                  % \overline{\overline{z}}
+\begin{flushleft}
+
+\section{複素数}
+\subsection{複素数}
+形式的に虚数単位 $i\:(\:=\sqrt{-1})$ を用いて, 
+\begin{equation}
+  z \:=\: x \:+\: i\hspace{0.1em}y\hspace{5em} (x,\:y \:\in\: \mathbb{R}) 
+  \label{eq:eq1}
+\end{equation}
+と表される数を複素数 (complex number)と定義する. また複素数全体の集合を $\mathbb{C}$ と表し, 以降はこの複素数に関して, 極限, 微積分等の実解析学を応用させて考える. 
+
+{}\eqref{eq:eq1}式において,  $x,\:y$ をそれぞれ $z$ の実部 (real part), 虚部 (imaginary part)と呼び
+\begin{equation}
+  x\:=\:\mathrm{Re}(z)\:\:,\:\:\:y\:=\:\mathrm{Im}(z) 
+  \label{eq:eq2}
+\end{equation}
+と表記する. $\mathrm{Re}$ とは Real number (実数), $\mathrm{Im}$ とは Imaginary number (虚数)としている. 
+この表記法は以降も登場するので覚えておくこと. 
+\begin{definition}[複素数]
+  {}複素数は, 
+  \begin{equation*}
+    x\:+\:i\hspace{0.1em}y\hspace{3em}(x,\:y\:\in\:\mathbb{R})
+  \end{equation*}
+  の形で表され, 複素数全体の集合を
+  \begin{equation*}
+    \mathbb{C}
+  \end{equation*}
+  とする. 
+  さらに, 
+  \begin{equation*}
+    x\:=\:\mathrm{Re}(z)\:\:,\:\:\:y\:=\:\mathrm{Im}(z)
+  \end{equation*}
+  と表記される. 
+\end{definition}
+
+複素数 $z=x+i\:y$ について, $x=0$ とすると $z=iy$ となりこれを純虚数 (purely imaginary number)とよぶ. 
+$y=0$ とすると $z=x$ となりこれは任意の実数を表している. 
+このことから実数全体の集合 $\mathbb{R}$ と $\mathbb{C}$ の間には, 
+\begin{equation}
+  \mathbb{R} \:\subset\: \mathbb{C} 
+  \label{eq:eq3}
+\end{equation}
+が成立する. 
+
+実数世界における2次平面 ($xy$ 平面)を複素数の世界に展開する. 
+この平面を複素数平面 (complex number plane)とよび, 次のように対応させる. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\linewidth]{img/fig1-1.png} %chktex 8
+  \caption{$xy$平面と複素数平面との対応}\label{fig:fig1}
+\end{figure}
+
+軸について $x$ 軸に対応するものを実軸 (real axis), $y$ 軸に対応するものを虚軸 (imaginary axis)とよぶ. 
+
+\subsection{複素数の基本演算}
+複素数の和, 差, 積, 商は十数のときと同様に定義されるということを示す. 
+2つの複素数 $z,\:\omega$ を
+\begin{equation*}
+  z\:=\:x\:+\:i\hspace{0.1em}y\:\:,\:\:\:\omega\:=\:u\:+\:i\hspace{0.1em}v
+\end{equation*}
+とする. 
+
+和および差について, 実部と虚部を別々に足し算, 引き算をする. 
+すなわち, 
+\begin{equation}
+  z\:+\:\omega \:=\: (x\:+\:i\hspace{0.1em}y) \:+\: (u\:+\: i \hspace{0.1em} v) \:=\: (x\:+\:u) \:+\: i\hspace{0.1em} (y\:+\:v) 
+  \label{eq:eq4}
+\end{equation}
+\begin{equation}
+  z\:-\:\omega \:=\: (x\:+\:i\hspace{0.1em}y) \:-\: (u\:+\: i \hspace{0.1em} v) \:=\: (x\:-\:u) \:+\: i\hspace{0.1em} (y\:-\:v)
+  \label{eq:eq5}
+\end{equation}
+
+積, 商については, 
+\begingroup
+\setlength{\jot}{10pt}\relax
+\begin{align}
+  z\hspace{0.1em}\omega
+  &= (x\:+\:i\hspace{0.1em}y)(u\:+\:i\hspace{0.1em}v) \notag\\
+  &= x\hspace{0.1em}(u\:+\:i\hspace{0.1em}v) \:+\: i\hspace{0.1em}y\hspace{0.1em}(u\:+\:i\hspace{0.1em}v) \notag\\
+  &= xu\:+\:i\hspace{0.1em}xv\:+\:i\hspace{0.1em}yu\:+\:i^2\hspace{0.1em}yv \notag\\
+  &= xu\:-\:yv\:+\:i\hspace{0.1em}(xv\:+\:yu) \qquad (\because\, i^2\:=\:-1) \notag\\
+  &= (xu\:-\:yv)\:+\:i\hspace{0.1em}(xv\:+\:yu) \tag{1.6}\label{eq:eq6}
+\end{align}
+\endgroup
+
+
+\begingroup
+\setlength{\jot}{10pt}\relax
+\begin{align}
+  \dfrac{\:z\:}{\:\omega\:}
+  &= \dfrac{\:u\:+\:i\hspace{0.1em}v\:}{\:x\:+\:i\hspace{0.1em}y\:} \notag\\
+  &= \dfrac{\:u\:+\:i\hspace{0.1em}v\:}{\:x\:+\:i\hspace{0.1em}y\:}\times
+     \dfrac{\:x\:-\:i\hspace{0.1em}v\:}{\:x\:-\:i\hspace{0.1em}v\:} \notag\\
+  &= \dfrac{\:xu\:-\:i\hspace{0.1em}yu\:+\:i\hspace{0.1em}xv\:+\:yv\:}{\:x^2\:+i\hspace{0.1em}xy\:-\:i\hspace{0.1em}xy \:+\: y^2\:} \notag\\
+  &= \dfrac{\:xu\:+\:yv\:+\:i\hspace{0.1em}(xv\:-yu)\:}{\:x^2\:+\:y^2\:} \notag\\
+  &= \dfrac{\:xu\:+\:yv\:}{\:x^2\:+\:y^2\:}\:+\:i\hspace{0.1em}\dfrac{\:xv\:-\:yu\:}{\:x^2\:+\:y^2\:} \tag{1.7}\label{eq:eq7}
+\end{align}
+\endgroup
+と定義される. 
+\setcounter{equation}{7}
+積については, $x \to u\:,\:\:y \to v$ および $u \to x\:,\:\:v \to y$ として $z\hspace{0.1em}\omega$ を計算しても結果は変わらないので, 
+\begin{equation}
+  z\hspace{0.1em}\omega \:=\: \omega \hspace{0.1em} z 
+  \tag*{\text{(交換法則)}\quad(1\cdot 8)}
+  \label{eq:eq8}
+\end{equation}
+が成立する. 
+
+さらに3つの複素数を $z\:,\:\:\omega\:,\:\:\zeta$ とすると, 
+\begin{equation}
+  z\hspace{0.1em}(\omega\:+\:\zeta)\:=\:z\hspace{0.1em}\omega \:+\: z\hspace{0.1em}\zeta 
+  \tag*{\text{(分配法則)}\quad(1\cdot 9)}
+  \label{eq:eq9}
+\end{equation}
+\begin{equation}
+  z\hspace{0.1em}(\omega\hspace{0.1em}\zeta)\:=\:(z\hspace{0.1em}\omega)\hspace{0.1em}\zeta 
+  \tag*{\text{(結合法則)}\quad(1\cdot 10)}
+  \label{eq:eq10}
+\end{equation}
+が成立する. 
+
+先ほどの $z$ と $\omega$ に関して $y=v=0$ とすると和, 差, 積, 商の演算結果は実数の場合と一致する. 
+仮に実数全体と実数演算の結果を元にもつ集合 $\mathbb{R}'$ と, 複素数全体と複素数の演算の結果を元にもつ集合 $\mathbb{C}'$ を考えると, 
+\begin{equation*}
+  \mathbb{R}' \: \subset \: \mathbb{C}'
+\end{equation*}
+が成立するはずである. 
+\begin{definition}[四則演算]
+  一般に2つの複素数について, $z=x+i\:y,\:\omega=u+i\:v$ をとると和, 差, 積, 商はそれぞれ
+  \begin{equation*}
+    z\:+\:\omega \:=\: (x\:+\:u) \:+\: i\hspace{0.1em}(y\:+\:v)
+  \end{equation*}
+  \begin{equation*}
+    z\:-\:\omega \:=\: (x\:-\:u) \:+\: i\hspace{0.1em}(y\:-\:v) 
+  \end{equation*}
+  \begin{equation*}
+    z\hspace{0.1em}\omega \:=\: (xu\:-\:yv) \:+\: i\hspace{0.1em}(xv \:+\: yu)
+  \end{equation*}
+  \begin{equation*}
+    \dfrac{\:z\:}{\:\omega\:} \:=\: \dfrac{\:xu\:+\:yv\:}{\:x^2\:+\:y^2\:}\:+\:i\hspace{0.1em}\dfrac{\:xv\:-\:yu\:}{\:x^2\:+\:y^2\:}
+  \end{equation*}
+  と定義される. 
+\end{definition}
+\setcounter{equation}{10}
+\subsection{共役な複素数}
+複素数 $z\:=\:x\:-\:i\hspace{0.1em}y$ に対して虚部の符号を反転させたものを複素数 $z$ の共役な複素数 (conjugate complex number)とよび, $\bar{z}$ で表す. 
+すなわち, 
+\begin{equation}
+  z\:=\: x \:-\: i\hspace{0.1em} y
+  \label{eq:eq11}
+\end{equation}
+である. 
+
+複素数平面上で $\bar{z}$ を表すと以下の図のようになっている. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig1-2_1.png} %chktex 8
+  \caption{共役な複素数}\label{fig:fig2}
+\end{figure}
+すなわち点 $z$ は点 $\bar{z}$ を実軸に関して対称移動させた点を表している. 
+
+\begin{definition}[共役な複素数]
+  複素数 $z=x+i\:y$ に対して, $z$ の共役な複素数 $\bar{z}$とは
+  \begin{equation*}
+    \bar{z} \:=\: x \:-\: i\hspace{0.1em} y
+    \label{eq:eq12}
+  \end{equation*}
+  と定義される. 
+\end{definition}
+
+\subsection{絶対値}
+複素数 $z=x+i\:y$ の絶対値 (absolute value)を $\lvert z \rvert$ と表し, 
+\begin{equation}
+  \lvert z \rvert \:=\: \sqrt{x^2\:+\:y^2}
+  \label{eq:eq13}
+\end{equation}
+と定義される. 
+さらに{}\eqref{eq:eq2}式の表記を用いて, 以下の不等式が成立することをいえる. 
+\begin{equation}
+  \max \Bigl\{ \big\lvert \mathrm{Re} (z) \big\rvert\:,\:\:\big\lvert \mathrm{Im} (z) \big\rvert \Bigr\} \:\leq\: \lvert z \rvert \:\leq\: \big\lvert \mathrm{Re} (z) \big\rvert\:+\:\big\lvert \mathrm{Im} (z) \big\rvert
+  \label{eq:eq14}
+\end{equation}
+
+これは次の複素数平面上の3点 $A(x)\:,\:\:B(0)\:,\:\:C(z)$ をとり, 三角形の成立条件から導ける. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig1-3.png} %chktex 8
+  \caption{\eqref{eq:eq14}不等式の成立}\label{fig:fig3}
+\end{figure}
+
+\begin{definition}{絶対値}
+  複素数 $z\:=\: x\:+\:i\hspace{0.1em}y$ の絶対値 $\lvert z \rvert$は, 
+  \begin{equation*}
+    \lvert z \rvert \:=\: \sqrt{x^2\:+\:y^2}
+  \end{equation*}
+  で定義される. 
+\end{definition}
+\subsection{複素数の基本性質}
+以下は複素数について一般に成立する性質である. 
+\begin{character}{複素数の基本性質}{}
+  2つの複素数を $z=x+i\:y\:,\:\:\omega=u+i\:v$ と定めるとき次の (1)から (10)の性質が成立する. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,      % ←番号エリア幅を固定
+    labelsep=0.8em,
+    align=left]
+    \item $\overline{\bar{z}}\:=\:z$
+    \item $\lvert \bar{z} \rvert \:=\: \lvert z \rvert$
+    \item $\lvert z\hspace{0.1em}\omega \rvert \:=\: \lvert z \rvert \lvert \omega \rvert$
+    \item $\overline{z\:+\:\omega}\:=\:\overline{z}\:+\:\overline{\omega}$
+    \item $\overline{z\hspace{0.1em}\omega}\:=\:\bar{z}\cdot \bar{\omega}$
+    \item $z\:+\:\bar{z}\:=\:2\mathrm{Re}(z)$
+    \item $z\:-\:\bar{z}\:=\:2i\hspace{0.1em}\mathrm{Im}(z)$
+    \item $z\cdot \bar{z}\:=\: \lvert z \rvert {}^2$ 
+    \item $\big\lvert \mathrm{Re}({\bar{z}\hspace{0.1em}\omega}) \big\rvert \:\leq\: \lvert z \rvert \lvert \omega \rvert$ (コーシー・シュワルツの不等式)
+    \item $\lvert z \:+\: \omega \rvert \:\leq\: \lvert z\rvert \:+\: \lvert \omega \rvert $ (三角不等式)
+  \end{enumerate}
+\end{character}
+証明に関しては, 次のようにして与える. 
+
+\begin{tproof}{性質1.1の証明}{prop1}
+  \begin{pstep}{1}
+    $\xoverline{\bar{z}}$ を計算する. 
+    
+    $z \:=\: x \:+\: i\hspace{0.1em}y$ であるから, 
+    \begin{mathpad}
+    \begin{flalign*}
+      \overline{\bar{z}} &\:=\: \overline{x \:-\: i\hspace{0.1em}y} &&\\
+      &= x \:-\: (-i\hspace{0.1em}y)  &&\\
+      &= x \:+\: i\hspace{0.1em}y &&\\
+      &= z &&
+    \end{flalign*}
+  \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{2}
+    (1)と同様に, $z\:=\:x\:+\:i\hspace{0.1em}y$ であるから, 
+    \begin{mathpad}
+      \begin{flalign*}
+        \lvert \bar{z} \rvert &\:=\: \lvert x\:-\:i\hspace{0.1em}y \rvert &&\\
+        &\:=\:\sqrt{x^2\:+\:{(-y)}^2} &&\\
+        &\:=\:\sqrt{x^2\:+\:y^2} && \\
+        &\:=\: \lvert z \rvert
+      \end{flalign*} 
+    \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{3}
+    $\omega\:=\:u\:+\:i\hspace{0.1em}v$ であるから, 
+    \begin{mathpad}
+      \begin{flalign*}
+        \lvert z\hspace{0.1em}\omega \rvert &\:=\: \big\lvert (x\:+\:i\hspace{0.1em}y)\hspace{0.1em} (u\:+\:i\hspace{0.1em}v) \big\rvert &&\\
+        &\:=\: \big\lvert (xu\:-\:yv) \:+\: i\hspace{0.1em} (xv \:+\:yu) \big\rvert &&\\
+        &\:=\: \sqrt{{(xu\:-\:yv)}^2\:+\:{(xv\:+\:yu)}^2} \\
+        &\:=\: \sqrt{x^2u^2\:+\:y^2v^2\:-\:2xyuv\:+\:x^2v^2\:+\:y^2u^2\:+\:2xyuv} &&\\
+        &\:=\: \sqrt{x^2u^2\:+\:x^2v^2\:+\:y^2u^2\:+\:y^2v^2} &&\\
+        &\:=\: \sqrt{(x^2\:+\:y^2)\hspace{0.1em}(u^2\:+\:v^2)} &&\\
+        &\:=\: \sqrt{(x^2\:+\:y^2)}\cdot \sqrt{(u^2\:+\:v^2)}  && \\
+        &\:=\: \lvert z \rvert \cdot \lvert \omega \rvert 
+      \end{flalign*}
+    \end{mathpad} 
+  \end{pstep}
+  \begin{pstep}{4}
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \xoverline{z\:+\:\omega} \: &= \: \xoverline{(x\:+\:i\hspace{0.1em}y)\:+\:(u\:+\:i\hspace{0.1em}v)} \: && \\
+        &= \: \xoverline{(x\:+\:u)\:+\:i\hspace{0.1em}(y\:+\:v)} \: && \\
+        &= \: (x\:+\:u) \:-\: i\hspace{0.1em}(y\:+\:v) \: && \\
+        &= \: (x\:-\:i\hspace{0.1em}y)\:+\:(u\:-\:i\hspace{0.1em}v) \: && \\
+        &= \: \overline{z} \:+\: \overline{\omega} && \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}    
+  \end{pstep}
+  \tcbbreak{}
+  \begin{pstep}{5}
+    左辺と右辺についてそれぞれ計算する. まず左辺 $(=\xoverline{z\hspace{0.1em}\omega})$について, 
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \xoverline{z\hspace{0.1em}\omega} \: &= \: \xoverline{(x\:+\:i\hspace{0.1em}y)\hspace{0.1em}(u\:+\:i\hspace{0.1em}v)}\: && \\
+        &= \:\xoverline{(xu\:-\:yv)\:+\:i\hspace{0.1em}(xv\:+\:yu)} \: && \\
+        &= \: (xu\:-\:yv)\:-\:i\hspace{0.1em}(xv\:+\:yu) && \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+    次に右辺 $(=\xoverline{z}\cdot \xoverline{\omega})$ について, 
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \xoverline{z}\cdot \xoverline{\omega} \: &= \: (x\:-\:i\hspace{0.1em}y)\cdot (u\:-\:i\hspace{0.1em}v) \: && \\
+        &= \: (xu \:-\: yv) \:-\: i\hspace{0.1em}(xv \:+\: yu) && \\
+        \shortintertext{$\therefore\ \xoverline{z\omega}=\xoverline{z}\cdot\xoverline{\omega}$}
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+    したがって, 
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \xoverline{z\hspace{0.1em}\omega} \: &= \: \xoverline{z} \cdot \xoverline{\omega} && \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+    が成立する. 
+  \end{pstep}
+  \begin{pstep}{6}
+      \begin{mathpad}
+        \begingroup
+        \begin{flalign*}
+          z\:+\:\xoverline{z} \: &= \: (x\:+\:i\hspace{0.1em}y) \:+\: (x \:-\: i\hspace{0.1em}y) \: && \\
+          &= \: 2x \: && \\
+          &= \: 2 \mathrm{Re} (z) && \\
+        \end{flalign*}
+        \endgroup
+    \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{7}
+      \begin{mathpad}
+        \begingroup
+        \begin{flalign*}
+          z \:-\: \xoverline{z} \: &= \: (x \:+\: i\hspace{0.1em}y) \:-\: (x\:-\:i\hspace{0.1em}y)\: && \\
+          &= \:2i\hspace{0.1em}y && \\
+        \end{flalign*}
+        \endgroup
+      \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{8}
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        z\cdot \xoverline{z} \: &= \: (x \:+\: i\hspace{0.1em}y)\hspace{0.1em}(x \:-\: i\hspace{0.1em}y) \: && \\
+        &= \: x^2 \:-\: i\hspace{0.1em}xy \:+\: i\hspace{0.1em}xy \:+\: y^2 \: && \\
+        &= \: x^2 \:+\: y^2 && \\
+        &\:=\: \lvert z \rvert {}^2&& \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+  \end{pstep}
+  \tcbbreak{}
+  \begin{pstep}{9}
+    \begin{mathpad}
+    \begingroup
+    \begin{flalign*}
+      \text{(左辺)} \: &= \: \big\lvert \mathrm{Re}(\xoverline{z}\omega) \big\lvert \: && \\
+      &= \: \Big\lvert \mathrm{Re} \bigl\{ (x\:-\:i\hspace{0.1em}y)\hspace{0.1em}(u\:+\:i\hspace{0.1em}v)\bigr\} \Big\rvert \: && \\
+      &= \: \Big\lvert \mathrm{Re} \bigl\{ (xu \:+\: yv) \:+\: i\hspace{0.1em}(xv \:-\: yu)\bigr\} \Big\rvert \: && \\
+      &= \: xu \:+\: yv && \\
+      &\:\leq\: \lvert \xoverline{z}\omega \rvert \:\:\:(\:\because\:\:(1.13))&& \\
+      &\:=\: \lvert \xoverline{z} \rvert \lvert \omega \rvert \:\:\:(\:\because\:\:\textbf{(5)}) && \\
+      &\:= \: \lvert z \rvert \lvert \omega \rvert \:\:\:(\:\because\:\:\textbf{(2)})&& \\
+    \end{flalign*}
+    \endgroup
+    \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{10}
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \lvert z \:+\: \omega \rvert {}^2 \: &= \: (z \:+\: \omega) \hspace{0.1em} (\xoverline{z \:+\: \omega}) \: && \\
+        &= \: \lvert z \rvert {}^2 \:+\: \xoverline{z}\hspace{0.1em}\omega \:+\: z\hspace{0.1em}\xoverline{\omega} \:+\: \lvert \omega \rvert {}^2 \:\:\:(\:\because\:\:\textbf{(8)})\: && \\
+        &= \: \lvert z \rvert {}^2 \:+\: \xoverline{z}\hspace{0.1em}\omega \:+\: \xoverline{\xoverline{z}\hspace{0.1em}\omega} \:+\: \lvert \omega \rvert {}^2 \:\:\:(\:\because\:\:\textbf{(1)})\: && \\
+        &= \: \lvert z \rvert {}^2 \:+\: 2 \mathrm{Re}(\xoverline{z}\hspace{0.1em}\omega) \:+\: \lvert \omega \rvert {}^2 \:\:\:(\:\because\:\:\textbf{(5)})\: && \\
+        &\leq \: \lvert z \rvert {}^2 \:+\: 2\lvert z \rvert \hspace{0.1em}\lvert \omega \rvert {}^2 \:\:\:(\:\because\:\:\textbf{(9)})\: && \\
+        &= \: (\lvert z \rvert \:+\: \lvert \omega \rvert){}^2 && \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+    ここで $\lvert z\:+\: \omega \rvert \:\geq\: 0\:\:,\:\:\:\lvert z \rvert \:+\: \lvert \omega \rvert \:\geq\: 0$ より, 
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \lvert z\:+\: \omega \rvert \:\leq\: \lvert z \rvert \:+\: \lvert \omega \rvert &&
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+  \end{pstep}
+  (\blacksquare)
+\end{tproof}
+\subsection{極座標表示}
+$z\hspace{0.2em}\neq\hspace{0.2em}0$ の複素数 $z=x+i\:y$ について, 
+\begin{equation}
+  z \:=\: r \hspace{0.1em}(\cos\theta \:+\: i\hspace{0.1em}\sin\theta)\label{eq:eq14}
+\end{equation} 
+を満たす $r\:(\:>\:0)\:\:,\:\:\:\theta\:(\:0\:\leq\:\theta\:<\:2\hspace{0.1em}\pi)$ を設定することにより $z$ を表現できる. 
+{}\eqref{eq:eq14}式のような表記を極座標表示 (polar form)とよび, 各変数に関しては以下の関係が成立している. 
+
+\[
+\left\{
+\begin{aligned}
+  r &\:=\: \lvert z \rvert  \\[6pt]
+  \cos\theta &\:=\: \dfrac{\:x\:}{\:r\:} \\[6pt]
+  \sin\theta &\:=\: \dfrac{\:y\:}{\:r\:}
+\end{aligned}
+\right.
+\]
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig1-4.png} %chktex 8
+  \caption{極座標表示}\label{fig:fig4}
+\end{figure}
+
+また $\theta$ に関しては, $z$ の偏角 (argument)とよび実軸の正の部分を始線とし反時計回りに角度を測り $\theta$ を得る. 
+$z$ の偏角は $\arg$ という記号を用いて, 
+\begin{equation}
+  \arg\:(z) \:=\: \theta \:+\: 2\hspace{0.1em}n\hspace{0.1em}\pi\hspace{3em}(n \:\in\: \mathbb{Z})\label{eq:eq15}
+\end{equation}
+と表せる. \:\eqref{eq:eq15}式によると $\arg\:(z)$ は非有限個の値をとるため, $\arg\:(z)$ の中で代表となる値として主値 (principal value)というものを考える. 
+\begin{remark}{主値の範囲の定義}{}
+  主値に関しては問題集, 教科書により範囲の定義が異なるため, 各々学習中の書籍に合わせて参照すること
+\end{remark}
+本書において主値 $\Arg\hspace{0.1em}(z)$は特に, 
+\begin{equation}
+  -\pi \:\leq\: \Arg\hspace{0.1em}(z) \:\leq\: \pi\label{eq:eq16}
+\end{equation}
+を満たすものを主知として考える (以降主値の範囲の定義について言及しない). 
+\begin{exproblem}{極座標表示と主値}{}
+  複素数 $1\:+\:\sqrt{3}\hspace{0.1em}i$ を極座標で表し, 主値を求めよ. 
+  \tcblower{}
+  \textbf{【解答】}\par
+  $z$ の絶対値 $\lvert z \rvert$ は, 
+  \begin{mathpad}
+    \begingroup
+    \setlength{\jot}{10pt}\relax
+    \begin{flalign*}
+      \lvert z \rvert \: &= \: \sqrt{1^2 \:+\: \sqrt{3}^2} \: && \\
+      &= \: \sqrt{1\:+\:3} \: && \\
+      &= \: 2 && \\
+    \end{flalign*}
+    \endgroup
+  \end{mathpad}
+  したがって, $z$ を極座標表示すると整数 $n$ を用いて, 
+  \begin{mathpad}
+    \begin{equation*}
+      z \:=\: 2 \Biggl(\:\dfrac{\:1\:}{\:2\:}\:+\:\dfrac{\:\sqrt{3}\:}{\:2\:}\:\Biggr) \:=\: 2 \Biggl\{\:\cos{\biggl(\:\dfrac{\:\pi\:}{\:3\:} \:+\: 2\hspace{0.1em}n\hspace{0.1em}\pi\:\biggr)} \:+\: \sin{\biggl(\:\dfrac{\:\pi\:}{\:3\:} \:+\: 2\hspace{0.1em}n\hspace{0.1em}\pi\:\biggr)}\:\Biggr\}
+    \end{equation*}
+  \end{mathpad}
+  また $z$ の主値 $\Arg\:(z)$ は $-\pi \:\leq\: \Arg\hspace{0.1em}(z) \:\leq\: \pi$ より, 
+  \begin{mathpad}
+    \begin{equation*}
+      \Arg\:(z) \:=\: \dfrac{\:\pi\:}{\:3\:}
+    \end{equation*}
+  \end{mathpad}
+  である. $z$ を複素数平面上で表すと次のようになる. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig1-5.png} %chktex 8
+  \caption{$1\:+\:\sqrt{3}\hspace{0.1em}i$ の複素数平面上での図示}\label{fig:fig5}
+\end{figure}
+
+\end{exproblem}
+\begin{definition}[極座標表示]
+  複素数 $z$ は, 偏角 $\theta \: (\hspace{0.1em}0\:\leq\: \theta \:<\: 2\pi\hspace{0.1em})$ と $r\:(\hspace{0.1em}>\:0)$ を用意することにより, 
+  \begin{equation*}
+    z \:=\: r\:(\hspace{0.1em}\cos\theta \:+\: i\hspace{0.1em}\sin\theta \hspace{0.1em})
+  \end{equation*}
+  と表現できる. 
+\end{definition}
+\subsection{オイラーの公式}
+$\theta \:\in\: \mathbb{R}$ に対してネイピア数 $e$ を用いると, 
+\begin{equation}
+  e^{i\hspace{0.1em}\theta} \:=\: \cos\theta \:+\: i\hspace{0.1em} \sin\theta\label{eq:eq17}
+\end{equation}
+と定義することができる. {}\eqref{eq:eq17}式の厳密な証明は以降のローラン展開の説明の際に与えるので, ここではこの事実を認めてほしい. 
+さて, 以下は $e^{i\hspace{0.1em}\theta}$ を用いた極座標表示についてまとめたものである. 
+\begin{character}{$e^{i\hspace{0.1em}\theta}$ の基本性質}{}
+  ある複素数 ($\lvert z \rvert=1$)を $z\:=\:e^{i\hspace{0.1em}\theta}$ としたときの基本性質は以下のようにまとめられる. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,      % ←番号エリア幅を固定
+    labelsep=0.8em,
+    align=left]
+    \item 任意の $\theta\:\in\:\mathbb{R}$ に対して, $\lvert e^{i\hspace{0.1em}\theta} \rvert \:=\: 1$ が成立する.  
+    \item 任意の $\theta\:\in\:\mathbb{R}$ に対して, $\xoverline{e^{i\hspace{0.1em}\theta}} \:=\: e^{-i\hspace{0.1em}\theta}$ が成立する. 
+    \item 任意の $\theta_1\:,\:\:\theta_2\:\in\:\mathbb{R}$ に対して, $e^{i\hspace{0.1em}(\theta_1\hspace{0.2em}+\hspace{0.2em}\theta_2)} \:=\: e^{i\hspace{0.1em}\theta_1}\cdot e^{i\hspace{0.1em}\theta_2}$ が成立する. 
+  \end{enumerate}
+\end{character}
+\begin{tproof}{性質1.2の証明}{}
+  \begin{pstep}{1}
+    任意の $\theta\:\in\:\mathbb{R}$ に対し, 
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \lvert e^{i\hspace{0.1em}\theta} \rvert \: &= \: \sqrt{\cos^2\theta \:+\: \sin^2\theta} \: && \\
+        &= \: \sqrt{1} \: && \\
+        &= \: 1 && \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{2}
+    任意の $\theta\:\in\:\mathbb{R}$ に対し, 
+    \begin{mathpad}
+      \begingroup
+      \begin{flalign*}
+        \xoverline{e^{i\hspace{0.1em}\theta}} \: &= \: \xoverline{\cos\theta \:+\: i\hspace{0.1em}\sin\theta} \:-\: \cos\theta \:-\: i\hspace{0.1em}\sin\theta \: && \\
+        &= \: \cos{(-\theta)} \:+\: i\hspace{0.1em}\sin{(-\theta)} \: && \\
+        &= \: e^{-i\hspace{0.1em}\theta} && \\
+      \end{flalign*}
+      \endgroup
+    \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{3}
+    \begin{mathpad}
+        \begingroup
+        \begin{flalign*}
+          \text{(\:右辺\:)} \: &= \: e^{i\hspace{0.1em}\theta_1}\cdot e^{i\hspace{0.1em}\theta_2} \: && \\
+          &= \: \bigl(\:\cos\theta_1 \:+\: i\hspace{0.1em}\sin\theta_1\:\bigr)\hspace{0.2em} \bigl(\:\cos\theta_2 \:+\: i\hspace{0.1em}\sin\theta_2\:\bigr) \: && \\
+          &= \: \bigl(\:\cos\theta_1\hspace{0.1em}\cos\theta_2 \:-\: \sin\theta_1\hspace{0.1em}\sin\theta_2\:\bigr) \:+\: i\hspace{0.1em} \bigl(\:\sin\theta_1\hspace{0.1em}\cos\theta_2 \:+\: \cos\theta_1\hspace{0.1em}\sin\theta_2\:\bigr) \: && \\
+          &= \: \cos{(\theta_1 \:+\: \theta_2)} \:+\: i\hspace{0.1em}\sin{(\theta_1 \:+\: \theta_2)} \: && \\
+          &= \: e^{i\hspace{0.1em}(\theta_1 \:+\: \theta_2)} \: && \\
+          &= \: \text{(\:左辺\:)} && \\
+        \end{flalign*}
+        \endgroup
+    \end{mathpad}
+  \end{pstep}
+  (\blacksquare)
+\end{tproof}
+\begin{sidebox}[TBblue]{重要}
+  \textbf{(3)} に関して実数世界における指数法則は複素数世界でも同様に成立するとは限らなかったということに注意する. 
+  したがって, この証明は加法定理などを利用して与える必要がある. 
+\end{sidebox}
+(3)について, 一般の複素数の積は2つの複素数を $r\:e^{i\hspace{0.1em}\theta}$ と $R\:e^{i\hspace{0.1em}\omega}$ とすると, 
+\begin{equation}
+  r\:e^{i\hspace{0.1em}\theta} \times R\:e^{i\hspace{0.1em}\omega} \:=\: (rR) \: e^{i\hspace{0.1em}(\theta \:+\: \omega)}\label{eq:eq18}
+\end{equation}
+となる. つまりは各複素数の絶対値と偏角を別々に計算すればいいということである. 
+
+\subsection{無限遠点}
+複素数の世界での無限遠点 (point at infinity) は記号で $\infty$ で表されるが, 実数世界における無限遠点とは定義が異なる. 
+複素数の世界における無限遠点は, 円 $\lvert z \rvert \:=\: R$ の半径 $R$ を限りなく大きくしたときの円の外側というように定義する. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\linewidth]{img/fig1-6.png}%chktex 8
+  \caption{無限遠点}\label{fig:fig6}
+\end{figure}
+この無限遠点の導入には, 次のような球面 $\Sigma$ を考える必要がある. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig1-7.png} %chktex 8
+  \caption{球面 $\Sigma$  }\label{fig:fig7}
+\end{figure}
+球面 $\Sigma$ は原点を $O$ とする半径 $1$ の球面を表している. 
+ここで点 $N$ から球面上の別の点 $Z$ を通る直線を考えるとき, この直線と複素数平面との交点を $z$ とする. 
+この点と球面 $\Sigma$ を対応させる写像を立体射影 (stereo graphic projection) もしくは極射影 (polar projection) という. 
+さて点 $Z$ が限りなく点 $N$ に近づくことを考えると点 $z$ はどのように写像されるだろうか. 
+以下の図のように遷移する. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{img/fig1-8.png} %chktex 8
+  \caption{立体射影の遷移}\label{fig:fig8}
+\end{figure}
+このようにして考えると, 複素数平面上の無限遠点を含むすべての点は球面 $\Sigma$ 上の点によって1対1で対応づけて表示できるはずである. 
+$\infty$ を含めた複素数平面を\textbf{拡張された複素数平面 (extended complex plane)} とよぶ. 
+また球面 $\Sigma$ のことを複素数球面 (complex sphere) もしくはリーマン球面 (Riemann sphere) という. 
+$\infty$ でない複素数を有限複素数といい, それに対応する複素数平面を有限複素数平面とよぶ. 
+$\infty$ を含む四則演算を次のようにまとめる. 
+\begin{character}{$\infty$を含む四則演算}{}
+\begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,      % ←番号エリア幅を固定
+    labelsep=0.8em,
+    align=left]
+    \item $z \:+\: \infty \:=\: \infty \:+\: z \:=\: \infty$
+    \item $\dfrac{\:z\:}{\:\infty\:} \:=\: 0$
+    \item $z \cdot \infty \:=\: \infty \cdot z \:=\: \infty$
+    \item $\dfrac{\:z\:}{\:0\:} \:=\: \infty$
+\end{enumerate}
+\end{character}
+\begin{remark}{不定形}{}
+  $\infty \hspace{0.1em}+\hspace{0.1em} \infty \:,\:\: 0\cdot \infty \:,\:\: \infty\cdot 0 \:,\:\: 0\hspace{0.1em}/\hspace{0.1em}0$ は不定形とよばれ定義されない.
+\end{remark}
+
+\subsection{円周, 円板, 円環領域}
+$z_0\:\in\:\mathbb{C}$ と実数 $R\:(\:>\:0)$ をとる. 
+
+\begin{equation}
+  \Delta\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \:-\: z_0 \rvert \:<\: R \:\bigr\}\label{eq:eq19}
+\end{equation}
+\begin{equation}
+  \xoverline{\Delta}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \:-\: z_0 \rvert \:\leq\: R \:\bigr\}\label{eq:eq20}
+\end{equation}
+とすると, {}\eqref{eq:eq19}式と{}\eqref{eq:eq20}式をそれぞれ中心 $_0$, 半径 $R$ の開円板及び閉円板とよぶ. 
+{}\eqref{eq:eq19}式を満たす $z$ の全体を $z_0$ の $R$ 近傍とよぶ. 
+また $\xoverline{\Delta}\:(z_0\:,\:\:R)$ において, 境界を $\partial\hspace{0.1em}{\Delta}\:(z_0\:,\:\:R)$ と表し, 
+\begin{equation}
+  \partial\hspace{0.1em}{\Delta}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \:-\: z_0 \rvert \:=\: R \:\bigr\}\label{eq:eq21}
+\end{equation}
+と定義する. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig1-9.png} %chktex 8
+  \caption{開円板, 閉円板の図}\label{fig:fig9}
+\end{figure}
+中心を除いた円板上の集合を穴あき円板とよび, 開円板と閉円板のそれぞれの場合について次のように定義できる. 
+\begin{equation}
+  \Delta^{*}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: 0 \:<\: \lvert z \:-\: z_0 \rvert \:<\: R \:\bigr\}\label{eq:eq22}
+\end{equation}
+\begin{equation}
+  \xoverline{\Delta}^{*}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: 0 \:<\: \lvert z \:-\: z_0 \rvert \:\leq\: R \:\bigr\}\label{eq:eq23}
+\end{equation}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig1-10.png}%chktex 8
+  \caption{穴あき円板の図}\label{fig:fig10}
+\end{figure}
+
+さらに $z_0\:=\:0\:,\:\:r\:=\:1$ とすると $\Delta\:(0\:,\:\:1)$ は単位円板とよばれ $\mathbb{D}$ で表し, 
+$\partial\:(0\:,\:\:1)$ は単位円周とよばれ $\partial\:\mathbb{D}$ で表される. つまり, 
+\begin{equation}
+  \mathbb{D} \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \rvert \:<\: 1 \:\bigr\}\label{eq:eq24}
+\end{equation}
+\begin{equation}
+  \xoverline{\mathbb{D}} \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \rvert \:\leq\: 1 \:\bigr\}\label{eq:eq25}
+\end{equation}
+\begin{equation}
+  \partial\:\mathbb{D} \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \rvert \:=\: 1 \:\bigr\}\label{eq:eq26}
+\end{equation}
+また $z_0 \:\in\:\mathbb{C}$, 内半径 $r$, 外径 $R$ の円環領域 (開円環領域) 
+$A\:(z_0\hspace{0.2em},\:\:r\hspace{0.2em},\:\:R)$ と 閉円環領域 $\xoverline{A}\:(z_0\hspace{0.2em},\:\:r\hspace{0.2em},\:\:R)$ 
+を次のように定義する. 
+\begin{equation}
+  A\:(z_0\hspace{0.2em},\:\:r\hspace{0.2em},\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: r \:<\: \lvert z \:-\: z_0 \rvert \:<\: R \:\bigr\}\label{eq:eq27}
+\end{equation}
+\begin{equation}
+  \xoverline{A}\:(z_0\hspace{0.2em},\:\:r\hspace{0.2em},\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: r \:\leq\: \lvert z \:-\: z_0 \rvert \:\leq\: R \:\bigr\}\label{eq:eq28}
+\end{equation}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig1-11.png} %chktex 8
+  \caption{円環領域の図}\label{fig:fig11}
+\end{figure}
+集合 $A$ に関して, $R$ 近傍が $A$ に含まれる境界の内側にあるような点を $A$ の内点, 含まれないような点を外点, それ以外の点を境界点という. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig12.png}
+  \caption{内点, 外点, 境界点}\label{fig:fig12}
+\end{figure}
+$A$ には含まれるが周囲にその点以外の集合 $A$ の要素が存在しないような点を $A$ の孤立点とよび, 孤立点の集合を離散集合という. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{img/fig1-13.png} %chktex 8
+  \caption{孤立点}\label{fig:fig13}
+\end{figure}
+\begin{definition}[円周, 円板, 円環領域]
+  開円板,閉円板およびその境界は, 
+  \begin{mathpad}
+    \begin{equation*}
+      \Delta\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \:-\: z_0 \rvert \:<\: R \:\bigr\}
+    \end{equation*}
+    \begin{equation*}
+      \xoverline{\Delta}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \:-\: z_0 \rvert \:\leq\: R \:\bigr\}
+    \end{equation*}
+  \begin{equation}
+    \partial\hspace{0.1em}{\Delta}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: \lvert z \:-\: z_0 \rvert \:=\: R \:\bigr\}\label{eq:eq21_summary}
+  \end{equation}
+  \end{mathpad}
+  穴あき開円板, 閉円板については, 
+  \begin{mathpad}
+  \begin{equation}
+    \Delta^{*}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: 0 \:<\: \lvert z \:-\: z_0 \rvert \:<\: R \:\bigr\}\label{eq:eq22}
+  \end{equation}
+  \begin{equation}
+    \xoverline{\Delta}^{*}\:(z_0\:,\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: 0 \:<\: \lvert z \:-\: z_0 \rvert \:\leq\: R \:\bigr\}\label{eq:eq23}
+  \end{equation}
+  \end{mathpad}
+  開円環領域, 閉円環領域は
+  \begin{mathpad}
+    \begin{equation}
+      A\:(z_0\hspace{0.2em},\:\:r\hspace{0.2em},\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: r \:<\: \lvert z \:-\: z_0 \rvert \:<\: R \:\bigr\}\label{eq:eq27}
+    \end{equation}
+    \begin{equation}
+      \xoverline{A}\:(z_0\hspace{0.2em},\:\:r\hspace{0.2em},\:\:R) \:=\: \bigl\{\:z\:\in\:\mathbb{C} \:\left. \right|\: r \:\leq\: \lvert z \:-\: z_0 \rvert \:\leq\: R \:\bigr\}\label{eq:eq28}
+    \end{equation}
+  \end{mathpad}
+  と定義される. 
+
+  集合 $A$ 内部の点を\textbf{内部点}, 境界上の点を\textbf{境界点}, 外部の点を\textbf{外部点}という. 
+  集合 $A$ に含まれるが周囲に同様に含まれるような点が存在しない点のことを\textbf{孤立点}といい, 孤立点の集合を\textbf{離散集合}という.
+\end{definition}
+
+\end{flushleft}
+
+\end{document}

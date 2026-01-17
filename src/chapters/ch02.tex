@@ -1,0 +1,1367 @@
+\documentclass[../main.tex]{subfiles}
+\usepackage{emotion}
+\usepackage{amsmath}
+% =============================================
+% 【自動設定】単体ビルド時の章番号補正
+% ファイル名 (chXX) の数字を読み取り、自動でセクション番号を調整します
+% main.tex からビルドする時は無視されます
+% =============================================
+\directlua{
+  local s, e, num = string.find(tex.jobname, "ch(" .. string.char(37) .. "d+)") %chktex 36 %chktex 18 %chktex 12 %chktex 26
+  if num then
+    tex.print(string.char(92) .. "setcounter{section}{" .. (tonumber(num) - 1) .. "}") %chktex 36 %chktex 18 %chktex 12 %chktex 26 %chktex 8
+  end
+}
+
+\begin{document}
+\begin{flushleft}
+\section{極限と無限級数}
+\subsection{点列・数列の収束}
+\begin{definition}{点列・数列}{def1}
+  任意の正の整数 $n$ と対応づけられた複素数 $z_n$ を点列 (point sequence), 
+  複素数点列 (complex point sequence), 数列 (number sequence), もしくは複素数列 (complex sequence) とよぶ. 
+  \color{red}以降は複素数列 (complex sequence)で統一する\color{black}. 
+\end{definition}
+
+複素数列の収束については以下のように定義することができるが, この主張を理解するために補足的に $\varepsilon-N$ 論法について説明する. 
+\begin{definition}{複素数列の収束}{def2}
+  任意の $\varepsilon\:(\hspace{0.1em}>\:0)$ に対して, 
+  \begin{equation}
+    \lvert z_n \:-\: \alpha \rvert \:<\: \varepsilon
+  \end{equation}
+  が任意の $n\:\geq\:N$ に対し成立するよう $N\:\in\:\mathbb{N}$ が取れるとき, 複素数列 $\{z_n\}$ は $\alpha\:\in\:\mathbb{C}$ に収束する. 
+\end{definition}
+$\varepsilon-N$ 論法の主張をわかりやすく伝えるため, ここでは次の図を考える 
+(イメージなのでここでは単調増加する実数列 $\{a_n\}$ を考える). 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{../../out/img/ch02_figure_01.pdf}
+  \caption{実数列における $\varepsilon-N$ 論法のイメージ図}\label{fig:fig1}
+\end{figure}
+
+$\varepsilon-N$ 論法の主張を言い換えると, ``どんなに小さな $\varepsilon$ を取ったとしても, ある $N$ が存在して $N$ 以降ずっと
+$\alpha$ から $\varepsilon$ の長さの範囲内に $\{a_n\}$ の要素が入る'' ということである. 
+つまりそのような $N$ の存在をいえたときに初めてこの主張が通る. 
+
+続いて, 複素数列 $\{z_n\}$ における $\varepsilon-N$ 論法を考える. 
+まず $\alpha$ を円 $\lvert z \:-\: \alpha \rvert \:=\: \varepsilon$ の中心となるようにとる. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.65\linewidth]{../../out/img/ch02_figure_2.pdf}
+  \caption{複素数列が収束するときの図}\label{fig:fig2}
+\end{figure}
+
+$\{z_n\}$ の要素は $N$ 以降では円板内に存在するようになる. 
+このような $N$ の存在をいえるときに複素数列 $\{z_n\}$ は収束するという. ($N$ を\textbf{境界}と考えておくと以降の理解が楽になる)
+
+逆に発散とは収束しないことをいう. 例えば無界に発散する場合もあれば, 有界だが振動して収束しない場合もある. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.65\linewidth]{../../out/img/ch02_figure_3.pdf}
+  \caption{複素数列が発散するときの図}\label{fig:fig3}
+\end{figure}
+
+\begin{exproblem}{複素数列の収束とその定義}{expr1}
+  $z_n\:=\:2\hspace{0.1em}-\hspace{0.1em}i\hspace{0.1em}+\hspace{0.1em}\dfrac{\:3\hspace{0.1em}+\hspace{0.1em}4i\:}{\:n\:}$ で
+  複素数列 $\{z_n\}$ を定める. 
+
+\begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,      % ←番号エリア幅を固定
+    labelsep=0.8em,
+    align=left]
+  \item $\{z_n\}$ の極限値の候補を求めよ.
+  \item (定義\ref{def:def2}) を用いて, $\{z_n\}$ が \textbf{(1)}で挙げた極限値に収束することを証明せよ. 
+\end{enumerate}
+  ただし, この \textbf{(1)}においては複素数列の実部と虚部が収束すれば, 元の複素数列 $\{z_n\}$ は収束し, 極限値の実部と虚部はそれぞれの極限値に等しくなるということを用いて良いものとする. 
+  \tcblower{}
+  \textbf{【解答】}\par
+  \begin{pstep}{1}
+    複素数列 $\{z_n\}$ の実部 $\mathrm{Re}(z_n)$ と虚部 $\mathrm{Im}(z_n)$  はそれぞれ, 
+    \begin{mathpad}
+      \begin{equation*}
+        \mathrm{Re}(z_n) \:=\: \biggl(2 \:+\: \dfrac{\:3\:}{\:n\:}\biggr)
+      \end{equation*}
+        \begin{equation*}
+          \mathrm{Im}(z_n) \:=\: \biggl(-1 \:+\: \dfrac{\:4\:}{\:n\:}\biggr)
+        \end{equation*}
+    \end{mathpad}
+    であるから, いずれも単調に減少し下に有界である. 
+    \begin{mathpad}
+      \begin{equation*}
+        2 \:<\: \mathrm{Re}(z_n) \:<\: \infty
+      \end{equation*}
+      \begin{equation*}
+        -1 \:<\: \mathrm{Im}(z_n) \:<\: \infty
+      \end{equation*}
+    \end{mathpad}
+    したがって実部, 虚部を実数列とみたときいずれも収束するため元の複素数列 $\{z_n\}$ も収束し, 極限値 $2\:-\:i$ になると考えられる. 
+  \end{pstep}
+  \begin{pstep}{2}
+    任意の $\varepsilon$に対して
+    \begin{mathpad}
+      \begin{equation*}
+        \bigl\lvert z_n \:-\: (2-i)\bigr\rvert \:=\: \biggl\lvert \dfrac{\:3 \:+\: 4i\:}{\:n\:}\biggr\rvert \:<\: \varepsilon \tag{\bigstar}
+      \end{equation*}
+    \end{mathpad}
+    が成立するような $N$ が存在するとき, 
+    \begin{mathpad}
+      \begin{equation*}
+        \biggl\lvert \dfrac{\:3 \:+\: 4i\:}{\:N\:}\biggr\rvert \:=\: \dfrac{\:5\:}{\:N\:} \:<\: \varepsilon \:\iff\: N \:>\: \dfrac{\:5\:}{\:\varepsilon\:}
+      \end{equation*}
+    \end{mathpad}
+    であるから $N \:>\: \dfrac{\:5\:}{\:\varepsilon\:}$ を満たすように $N$ をとることで条件を満足する. 
+    よって $\{z_n\}$ の極限値は $2\:-\:i$ であり, $N \:=\: \biggl\lceil \dfrac{\:5\:}{\:\varepsilon\:} \biggr\rceil$ とすると $n\:\geq\:N$ で (\bigstar)が成立する. 
+  \end{pstep}
+\end{exproblem}
+\begin{sidebox}[TBgray]{補足}
+  天井関数 (ceiling function) は実数 $x$ に対して $x$ 以上の整数のうち最小のものを返し, 
+  床関数 (floor function) は実数 $x$ に対して $x$ 以下の整数のうち最大のものを返す. 
+  すなわち, 
+\begin{mathpad}
+    \begin{equation*}
+      \lceil x \rceil \:\coloneq\: \min \bigl\{\hspace{0.1em} n \:\in\: \mathbb{Z} \:\mid\: n \:\geq\: x\hspace{0.1em}\bigr\}
+    \end{equation*}
+  \begin{equation*}
+    \lfloor x \rfloor \:\coloneq\: \max \bigl\{\hspace{0.1em} n \:\in\: \mathbb{Z} \:\mid\: n \:\leq\: x\hspace{0.1em}\bigr\}
+  \end{equation*}
+\end{mathpad}
+  である. 
+\end{sidebox}
+\subsection{極限の一意性, 収束と有界性}
+先ほどの定義では極限値 $\alpha$ との距離が等しいような数列の要素 $z_i\hspace{0.15em},\:\:z_j\:\:(i\hspace{0.1em},\:j \:\geq\: N)$ 
+が存在するように思える. (この気持ちが共有できなければ悲しい\emotion{😭}) 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{../../out/img/ch02_figure_04.pdf}
+  \caption{同一円周上にある異なる要素}\label{fig:fig4}
+\end{figure}
+
+まず初めにそのような直感に反して複素数列の極限値が一意に定まることを示す. 
+
+\begin{tproof}{極限値の一意性の証明1}{proof1}
+  初めに以下を仮定する. 
+\begin{mathpad}
+    \begin{equation*}
+      \text{数列 $\{z_n\}$ が2つの異なる極限値 $\alpha$ と $\beta$ の両方に収束する} \tag{\heartsuit}
+    \end{equation*}
+\end{mathpad}
+  すなわちこの仮定から矛盾を導き $\alpha\:=\:\beta$ が成立することを示す (背理法). 
+\begin{mathpad}
+    \begin{equation*}
+      d \:=\: \lvert \alpha \:-\: \beta \rvert 
+    \end{equation*}
+\end{mathpad}
+  とする. 
+  $\varepsilon \:=\: \dfrac{\:d\:}{\:3\:}$ をとると2つの円板
+\begin{mathpad}
+    \[ \lvert z_n \:-\: \alpha \rvert \:<\: \varepsilon\:,\:\:\lvert z_n \:-\: \beta \rvert \:<\: \varepsilon\]
+\end{mathpad}
+  を同時に満たす交点は存在しない (下図). 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{../../out/img/ch02_figure_5.pdf}
+  \caption{2つの円板は交わらないことを示す図}\label{fig:fig5}
+\end{figure}
+
+  定義\ref{def:def2}よりある $N_1\hspace{0.1em},\:\:N_2$ が存在して, 
+\begin{mathpad}
+    \begin{equation*}
+    \tag*{(\spadesuit)}
+    \left\{
+    \begin{aligned}
+      n \ge N_1 &\Longrightarrow \lvert z_n-\alpha\rvert < \varepsilon \\[6pt]
+      n \ge N_2 &\Longrightarrow \lvert z_n-\beta\rvert < \varepsilon
+    \end{aligned}
+    \right.
+    \end{equation*}
+\end{mathpad}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{../../out/img/ch02_figure_6.pdf}
+  \caption{$\spadesuit$ の図形的言い換え}\label{fig:fig6}
+\end{figure}
+
+  ($\spadesuit$)の2つの条件式より2つの円板内に $z_n\hspace{0.1em}(\hspace{0.1em}n\:\geq\:N)$ が入る必要があるが, 
+  そのような点は2つの円板が交わらないことから実現不可能である. 
+  
+  したがって, 仮定は矛盾し数列 $\{z_n\}$ の極限値の一意性が示せた. $(\blacksquare)$
+\end{tproof}
+この証明は以下のようにも与えることができる. 
+
+\begin{tproof}{極限値の一意性の証明2}{proof2}
+  同様の仮定のもと
+\begin{mathpad}
+    \[
+    \begin{aligned}
+      0 \:<\: d \:=\: \lvert \alpha \:-\: \beta \rvert \:&=\: \lvert \alpha \:-\: z_n \:+\: z_n \:-\: \beta\rvert\: \\
+      &\leq\: \lvert \alpha \:-\: z_n \rvert \:+\: \lvert z_n \:-\: \beta \rvert \:<\: \varepsilon \:+\: \varepsilon \:=\: 2\varepsilon\:\:\:(\because\:\:\text{三角不等式}) \\
+    \end{aligned}
+    \]
+\end{mathpad}
+  収束の定義より任意の $\varepsilon \:>\: 0$ に対してある $N$ が存在して, $n\:\geq\:N$ で上式が成立する. 
+  上式より任意の $\varepsilon \:>\: 0$ で
+\begin{mathpad}
+    \begin{equation*}
+      0 \:<\: \lvert \alpha \:-\: \beta \rvert \:<\: 2\varepsilon
+    \end{equation*}
+\end{mathpad}
+  がいえるから, そのような $\alpha\hspace{0.1em},\:\:\beta$ は存在せずこれは仮定に矛盾している. 
+  
+  したがって$\{z_n\}$ の極限値の一意性が示せた. $(\blacksquare)$
+  \tcblower%
+  $\varepsilon$ にめっちゃ小さい値を入れると $0 \:\text{と}\: 2\varepsilon$ との距離がどんどんなくなるイメージ. 
+  %=================
+  %ここに写真を挿入
+  %=================
+
+  またこの証明\ref{prf:proof2}に見られるような三角不等式を用いた不等式変形はこの先頻出なので覚えておいてほしい. 
+\end{tproof}
+
+このことを図形的に解釈するには $\lvert z_n \:-\: \alpha \rvert \:=\: r$ という円の円周上の2点について注目する. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../../out/img/ch02_figure_7.pdf}
+  \caption{$r$ を小さくすると2点の距離も小さくなるイメージ図}\label{fig:fig7}
+\end{figure}
+
+上図のように $r$ を小さくしていくことで2点の相対的な距離は小さくなる. 
+この意味から $n\:\to\:\infty$ において, 
+\[
+z_n \:\to\: \alpha \:\iff\: \lvert z_n \:-\: \alpha \rvert \:\to\: 0
+\]
+という関係が導かれる. なお $\alpha\:=\:0$ のときは $\lvert z_n \rvert \:\to\: 0$ と同値である. 
+\subsection{有界性}
+\begin{definition}{複素数列の有界性の定義}{def4}
+  複素数列 $\{z_n\}$ が有界であるとは, 
+\begin{mathpad}
+    \begin{equation}
+      ^\exists \hspace{0.1em}\mathrm{U} \:\in\: \mathbb{R} \hspace{0.1em},\:\:^\forall \hspace{0.1em} n \:\in\: \mathbb{N} \:\colon\: \lvert z_n \rvert \:\leq\: \mathrm{U}
+    \end{equation}
+\end{mathpad}
+  すなわち複素数平面上の点 $z_i\:\:(\hspace{0.1em}i \hspace{0.1em}=\hspace{0.1em}1\hspace{0.1em},\:\: 2\hspace{0.1em},\:\: \cdots)$ をある円板上に%chktex 11
+  収めることができれば, そのような複素数列 $\{z_n\}$ を有界な複素数列 (bounded complex sequence) ということができる. 
+\end{definition}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\linewidth]{../../out/img/ch02_figure_8.pdf}
+  \caption{複素数列の有界性のイメージ図}\label{fig:fig8}
+\end{figure}
+
+また複素数列 $\{z_n\}$ の実部 $\mathrm{Re}(z_n)$ と虚部 $\mathrm{Im}(z_n)$ に注目すると, 
+これらはそれぞれ実数列 $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ だと捉えることができ, 
+この実数列 $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ を用いて複素数列 $\{z_n\}$ の $\mathbb{C}$ 上での
+有界性を表現することができる. 
+
+\begin{proposition}{複素数列 $\{z_n\}$ の実部と虚部に注目した有界性の表現}{prop1}
+  複素数列 $\{z_n\}$ が $\mathbb{C}$ 上において有界であることは, 実数列 $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ が
+  ともに $\mathbb{R}$ 上において有界であることと同値である. 
+\end{proposition}
+
+また実解析学においては, 実数列 $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ の定義は次のようにされていた. 
+実数列.  $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ において, 次のように定義される. 
+
+\begin{definition}{実数列の有界性の定義}{def3}
+  \begin{equation}
+    \{\mathrm{Re}(z_n)\}\:\:\text{が有界} \:\iff\: ^\exists \hspace{0.1em} \mathrm{U}_1\hspace{0.1em},\:\:\mathrm{L}_1 \:\in\: \mathbb{R} \hspace{0.1em},\:\: ^\forall\hspace{0.1em}n \:\in\: \mathbb{N} \:\colon\: \mathrm{L}_1 \:\leq\: \mathrm{Re}(z_n) \:\leq\: \mathrm{U}_1
+  \end{equation}
+  \begin{equation}
+    \{\mathrm{Im}(z_n)\}\:\:\text{が有界} \:\iff\: ^\exists \hspace{0.1em} \mathrm{U}_2\hspace{0.1em},\:\:\mathrm{L}_2 \:\in\: \mathbb{R} \hspace{0.1em},\:\: ^\forall\hspace{0.1em}n \:\in\: \mathbb{N} \:\colon\: \mathrm{L}_2 \:\leq\: \mathrm{Im}(z_n) \:\leq\: \mathrm{U}_2
+  \end{equation}
+\end{definition}
+
+\begin{tproof}{命題2.1の証明}{prf2}
+  \begin{pstep}{$\mathrm{i}$}
+\begin{mathpad}
+      \begin{equation*}
+        \{z_n\} \:\:\text{が有界} \:\Longrightarrow\: \{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}\:\:\text{が有界} \tag{\bigstar}
+      \end{equation*}
+\end{mathpad}
+    を示す. 
+    $z_n \:=\: x_n \:+\: i\hspace{0.1em}y_n$ とすると, 
+\begin{mathpad}
+      \[
+        \lvert z_n \rvert \:=\: \sqrt{x_n^2 \:+\: y_n^2}
+      \]
+\end{mathpad}
+    である. 
+    したがって, 
+\begin{mathpad}
+      \begin{equation*}
+        \lvert x_n \rvert \:\leq\: \lvert z_n \rvert\:,\hspace{0.5em}\lvert y_n \rvert \:\leq\: \lvert z_n \rvert
+      \end{equation*}
+\end{mathpad}
+    ここで有界性よりある $M$ が存在して任意の自然数 $n$ に対して $\lvert z_n \rvert \:\leq\: M$ が成立するとすると, 
+\begin{mathpad}
+      \begin{equation*}
+        \lvert x_n \rvert \:\leq\: M\:,\hspace{0.5em}\lvert y_n \rvert \:\leq\:M 
+      \end{equation*}
+\end{mathpad}
+    となる. すなわち $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ は有界となる. 
+  \end{pstep}
+  \begin{pstep}{$\mathrm{ii}$}
+\begin{mathpad}
+      \begin{equation*}
+         \{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}\:\:\text{が有界} \:\Longrightarrow\: \{z_n\}\:\:\text{が有界} \tag{\spadesuit}
+      \end{equation*}
+\end{mathpad}
+    $z_n \:=\: x_n \:+\: i\hspace{0.1em}y_n$ とすると, 実数列 $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ が有界ということは, 
+\begin{mathpad}
+      \[
+        \lvert x_n \rvert \:\leq\: A\:,\hspace{0.5em} \lvert y_n \rvert \:\leq\:B \:\text{となる}\: A\:,\:\:B\hspace{0.1em} (\hspace{0.1em}>\:0) \:\text{が存在する.}
+      \]
+      ということと同値である. つまり, $\lvert z_n \rvert$ は, 
+      \[
+        \lvert z_n \rvert \:=\: \sqrt{x_n^2 \:+\: y_n^2} \:\leq\: \sqrt{A^2 \:+\: B^2} \hspace{0.1em} (\:=\:M\:\text{とすると})
+      \]
+\end{mathpad}
+    と挟み込むことができる. 
+  
+    よって $\{z_n\}$ は有界である. 
+  \end{pstep}
+  \:
+  \[\]
+  \:
+  $(\bigstar)\hspace{0.1em},\:\:(\spadesuit)$ より命題2.1は真, すなわち
+  複素数列 $\{z_n\}$ が $\mathbb{C}$ 上において有界であることは, 実数列 $\{\mathrm{Re}(z_n)\}\hspace{0.1em},\:\:\{\mathrm{Im}(z_n)\}$ が
+  ともに $\mathbb{R}$ 上において有界であることと同値である. 
+  (\blacksquare)
+\end{tproof}
+\subsection{収束と有界性}
+実数列のときもそうであったが, 収束と有界性には深い繋がりがある. 
+この章では両者を関係づけるいくつかの定理とその証明を与えることにする. 
+\:
+\[\]
+\:
+まず初めに, 収束と有界性には次のような関係が成立している. 
+
+\begin{proposition}{収束と有界性の関係}{prop2}
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+      leftmargin=3.2em,
+      labelwidth=2.0em,      % ←番号エリア幅を固定
+      labelsep=0.8em,
+      align=left]
+    \item $\text{収束} \:\Longrightarrow\: \text{有界}$
+    \item $\text{有界} \:\not\Rightarrow\: \text{収束}$
+  \end{enumerate}
+\end{proposition}
+
+上の命題2.2の証明については次のように与えられる. 
+\begin{tproof}{命題2.2の証明}{prf3}
+  \begin{pstep}{1}
+    複素数列 $\{z_n\}$ が $\alpha \:\in\: \mathbb{C}$ に収束するすなわち, 
+  \begin{mathpad}
+      \[
+        z_n \:\to\: \alpha\hspace{0.5em}(n\:\to\:\infty)
+      \]
+  \end{mathpad}
+    とする. 定義より, $\varepsilon\:=\:1$ ($\because\:\:\varepsilon$ は任意)に対してある $N$ が存在して, 
+  \begin{mathpad}
+      \[
+        n \:\geq\: N \:\Longrightarrow\: \lvert z_n \:-\: \alpha \rvert \:<\: 1
+      \]
+  \end{mathpad}
+    が成立する. 三角不等式より, 
+  \begin{mathpad}
+      \[
+        \lvert z_n \rvert \:=\: \lvert z_n \:-\: \alpha \:+\: \alpha \rvert \:\leq\: \lvert z_n \:-\: \alpha \rvert \:+\: \lvert \alpha \rvert \:<\: \lvert \alpha \rvert \:+\: 1
+      \]
+  \end{mathpad}
+    と挟むことができる. 初めの有限個の要素である $z_1\hspace{0.1em},\:z_2\hspace{0.1em},\:\cdots\:\hspace{0.1em},\:z_{N-1}$ に対し $M_0$ を
+    $\lvert z_1 \rvert \hspace{0.1em},\: \lvert z_2\rvert \hspace{0.1em},\:\cdots\:\hspace{0.1em},\: \lvert z_{N-1} \rvert$ の中の最大値すなわち, 
+  \begin{mathpad}
+      \[
+        M_0 \:=\: \max\bigl\{ \lvert z_1 \rvert \hspace{0.1em},\: \lvert z_2\rvert \hspace{0.1em},\:\cdots\:\hspace{0.1em},\: \lvert z_{N-1} \rvert \bigr\}
+      \]
+  \end{mathpad}
+    ここで $M$ を $M_0$ と $\lvert \alpha \rvert \:+\: 1$ のうち大きい方と定義するとすなわち, 
+  \begin{mathpad}
+      \[
+        M \:=\: \max\bigl\{M_0\hspace{0.1em},\:\lvert \alpha \rvert \:+\: 1\bigr\}
+      \]
+  \end{mathpad}
+    となるがこのとき, 
+    \begin{equation*}
+      \lvert z_n \rvert \:<\: M \tag{\spadesuit}
+    \end{equation*}
+    が成立し $(\spadesuit)$ が成立するような $M$ の存在がいえたため題意満足. したがって, 
+  \begin{mathpad}
+      \[
+        \text{収束} \:\Longrightarrow\: \text{有界}
+      \]
+  \end{mathpad}
+  \end{pstep}
+  \begin{pstep}{2}
+    ここでは反例をひとつ挙げる. 複素数列 $\{z_n\}$ を
+\begin{mathpad}
+      \[
+        z_n \:=\: {(-1)}^n
+      \]
+\end{mathpad}
+    とすると, $\lvert z_n \rvert \:=\: 1$ でこれは有界だが, 
+\begin{mathpad}
+        \[
+        z_n =
+        \begin{cases}
+          1  & (n \text{が偶数}) \\
+          -1 & (n \text{が奇数})
+        \end{cases}
+        \]
+\end{mathpad}
+    であり収束しないことは明白である. 
+  \end{pstep}
+  \textbf{(1)}\hspace{0.1em},\textbf{(2)}より命題2.2について題意満足である. $(\blacksquare)$
+  \tcblower%
+  \textbf{(1)}\:について有界性を示すにはある実数 $M$ が存在して任意の自然数 $i$ で, 
+  \[
+    \lvert z_i \rvert \:<\: M \tag{\clubsuit}
+  \]
+  が成立する必要があった. ここで$\varepsilon-N$ 論法について補足しておくと, 定義2.2で登場した $N$ とはある種の境界となっている. 
+  ここで$1\hspace{0.1em},\:2\hspace{0.1em},\:\cdots\hspace{0.1em},\:N-1$ はその個数を数えることができたがそれ以降は数えることが不可能である. 
+  この意味で $(\clubsuit)$ の $M$ を決定するには $N$ 未満についてと $N$ 以降について両方を考慮する必要がある. 
+  そのため証明は上のように与えられることを理解してほしい\emotion{🤔}. 
+\end{tproof}
+%part2
+\begin{definition}{有界集合と非有界集合}{def5}
+  複素数平面 $\mathbb{C}$ の空集合でない部分集合 $\mathrm{A} \:\subset\: \mathbb{C}$ が与えられたとき, $\mathrm{A}$ に属するすべての複素数の絶対値がある値以下であれば, すなわち
+  \begin{equation}
+    ^\exists\mathrm{U} \:\in\: \mathbb{R} \hspace{0.1em},\:\: ^\forall z \:\in\: \mathrm{A} \:\colon\: \lvert z \rvert \:\leq\: \mathrm{U}
+  \end{equation}
+  が成立するとき $\mathrm{A}$ は $\mathbb{C}$ における有界集合 (bounded set)という. また空集合 $\varnothing \:\subset\: \mathbb{C}$ は有界集合であるとする. 
+  \:
+  \[\]
+  \:
+  $\mathrm{A}\hspace{0.1em}(\hspace{0.1em}\neq\:\varnothing \:\subset\: \mathbb{C})$ が有界でないということは, 
+  \begin{equation}
+    ^\forall\mathrm{U} \:\in\: \mathbb{R} \hspace{0.1em},\:\: ^\exists z \:\in\: \mathrm{A} \:\colon\: \lvert z \rvert \:>\: \mathrm{U}
+  \end{equation}
+  が成立するということであり, このような $\mathrm{A}$ を $\mathbb{C}$ における非有界集合 (unbounded set)という. 
+\end{definition}
+
+実数列の収束の条件については, 有界性と単調性を調べる必要があった. 
+ここまでで有界な複素数列とは何か考えてきたが, 収束を示すためのの頃の条件とはなんであろうか. 
+結論として複素数列 $\{z_n\} \:=\: \{x_n \:+\: i\hspace{0.1em}y_n\}$ について実数列 $\{x_n\}$ と $\{y_n\}$ の単調性がいえれば, 
+収束することを示せる. 
+したがって複素数列の収束の十分条件は次のように書ける. 
+
+\begin{definition}{複素数列 $\{z_n\}$ の収束の十分条件}{def6}
+\begin{mathpad}
+    \[\text{$\{x_n\}\:,\:\:\{y_n\}$がいずれも有界かつ$\{x_n\}\:,\:\:\{y_n\}$がいずれも単調性を持つ}\]
+    \[\Longrightarrow \:\: \text{複素数列 $\{z_n\} \:=\: \{x_n \:+\: i\hspace{0.1em}y_n\}$ が収束する}\]
+\end{mathpad}
+\end{definition}
+つまり $x_n\:\to\:\alpha\hspace{0.1em},\:\:y_n\:\to\:\beta$ のとき $\{z_n\}$ の極限値は以下のように定義される. 
+\begin{equation}
+  \displaystyle \lim_{n\to \infty} z_n \:=\: \displaystyle \lim_{n\to \infty} x_n \:+\: i\hspace{0.1em}\displaystyle \lim_{n\to \infty} y_n \label{eq:eq2_7}
+\end{equation}
+上の主張については $\varepsilon-N$ 論法により証明を与える. 
+
+\begin{tproof}{\eqref{eq:eq2_7}式の証明}{prf4}
+  \begin{pstep}{$\mathrm{i}$}
+  \begin{mathpad}
+      \[
+        z_n \:\to\: \alpha \:\Longrightarrow\: x_n \:\to\: \mathrm{Re}(\alpha)\:,\:\: y_n \:\to\: \mathrm{Im}(\alpha) \tag{\bigstar}
+      \]
+  \end{mathpad}
+    であることを示す. 
+    任意の $\varepsilon\:>\:0$ に対して, 収束の定義よりある $N$ が存在して
+  \begin{mathpad}
+      \[
+        n \:\geq\: N \:\Longrightarrow\: \lvert z_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+  \end{mathpad}
+    が成立する. ここで $\alpha \:=\: a \:+\: i\hspace{0.1em}b$ ( $a\:=\:\mathrm{Re}(\alpha)\:,\:\: b\:=\:\mathrm{Im}(\alpha)$ )とすると, %chktex 37
+  \begin{mathpad}
+      \[
+        \lvert x_n \:-\: a \rvert \:=\: \lvert \mathrm{Re}(z_n \:-\: \alpha) \rvert \:\leq\: \lvert z_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+        \[
+        \lvert y_n \:-\: b \rvert \:=\: \lvert \mathrm{Im}(z_n \:-\: \alpha) \rvert \:\leq\: \lvert z_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+  \end{mathpad}
+    であるから $n\:\geq\:N$ では, 
+  \begin{mathpad}
+      \[
+        \lvert x_n \:-\: a \rvert \:<\: \varepsilon \:\:,\:\:\: \lvert y_n \:-\: b \rvert \:<\: \varepsilon
+      \]
+  \end{mathpad}
+    が任意の $\varepsilon$ で成立してすなわちこれは
+  \begin{mathpad}
+      \[
+        x_n \:\to\: a \:\:,\:\:\: y_n \:\to\: b
+      \]
+  \end{mathpad}
+    を表す. したがって $(\bigstar)$ は題意満足. 
+  \end{pstep}
+  \begin{pstep}{$\mathrm{ii}$}
+  \begin{mathpad}
+      \[
+        x_n \:\to\: a \:\:,\:\:\: y_n \:\to\: b \:\Longrightarrow\: z_n \:\to\: a \:+\: i\hspace{0.1em}b \:(\:=\:\alpha) \tag{\spadesuit}
+      \]
+  \end{mathpad}
+    であることを示す. 
+    収束の定義より任意の $\varepsilon \:>\: 0$ に対してある $N_1$ が存在して, 
+  \begin{mathpad}
+      \[
+        n \:\geq\: N_1 \:\Longrightarrow\: \lvert x_n \:-\: a \rvert \:<\: \dfrac{\:\varepsilon\:}{\:\sqrt{2}\:} \tag{\sharp}
+      \]
+  \end{mathpad}
+    となる. 同様に任意の $\varepsilon \:>\: 0$ に対してある $N_2$ が存在して, 
+  \begin{mathpad}
+      \[
+        n \:\geq\: N_2 \:\Longrightarrow\: \lvert y_n \:-\: b \rvert \:<\: \dfrac{\:\varepsilon\:}{\:\sqrt{2}\:} \tag{\flat}
+      \]
+  \end{mathpad}
+    となる. ここで, $N \:=\: \max(N_1\:,\:\:N_2)$ とすると, $(\sharp)\:,\:\:(\flat)$ 式はいずれも $n \:\geq\: N$ のとき成立するので
+        \begin{mathpad}
+          \[
+          \begin{aligned}
+            \lvert z_n \:-\: (a \:+\: i\hspace{0.1em}b) \rvert
+            &= \lvert (x_n \:-\: a) \:+\: i\hspace{0.1em}(y_n \:-\: b) \rvert \\ %chktex 1 %chktex 36
+            &= \sqrt{{(x_n \:-\: a)}^2 \:+\: {(y_n \:-\: b)}^2} \: \\
+            &<\: \sqrt{{\biggl(\dfrac{\:\varepsilon\:}{\:\sqrt{2}\:}\biggr)}^2 \:+\: {\biggl(\dfrac{\:\varepsilon\:}{\:\sqrt{2}\:}\biggr)}^2} \\
+            &= \varepsilon
+          \end{aligned}
+          \]
+        \end{mathpad}
+    となり任意の $\varepsilon \:>\: 0$ で $\lvert z_n \:-\: (a \:+\: i\hspace{0.1em}b) \rvert \:<\: \varepsilon$ が成立することから
+  \begin{mathpad}
+      \[
+          z_n \:\to\: a \:+\: i\hspace{0.1em}b\hspace{0.5em}(n\:\to\:\infty)
+      \]
+  \end{mathpad}
+  したがって $(\spadesuit)$ は題意満足. 
+  \end{pstep}
+  $(\bigstar)\:,\:\:(\spadesuit)$の主張がそれぞれ示されたので, {}\eqref{eq:eq2_7}式は成立する. (\blacksquare) %chktex 12
+\end{tproof}
+
+\subsection{部分列と複素数列の収束}
+複素数列 $\{z_n\}$ を順番に並べると
+\begin{mathpad}
+  \[
+    z_1,\: z_2,\: \cdots,\: z_n,\: \cdots
+  \]
+\end{mathpad}
+となる. ここで, $\{z_n\}$ の中から順序を変えずに無限個取り出してできる数列を $\{z_{\ell(n)}\}$ と書き, これを $\{z_n\}$ の
+部分列 (subsequence) とよぶ. 
+
+\begin{remark}{}{}
+  項数が有限個では部分列とはよばない. また相対的な順序が入れ替わる場合においても部分列とはみなされない. 
+\end{remark}
+
+複素数列 $\{z_n\}$ と部分列 $\{z_{\ell(n)}\}$ の対応は, 
+\begin{mathpad}
+  \[
+    n \:\mapsto\: \ell(n)
+  \]
+\end{mathpad}
+のような関数 $\ell$ で表すことができ, このとき $\ell$ は正の整数の単調増加関数である. すなわち
+\begin{mathpad}
+  \[
+    \ell(1) \:<\: \ell(2) \:<\: \cdots \:<\: \ell(k) \:<\: \cdots
+  \]
+\end{mathpad}
+が成立する. 以降はこのような $\ell$ を用いて部分列を表現する. 
+
+さて, 複素数列 $\{z_n\}$ は添字に対応する複素数を写像するものであるから, 
+  \begin{mathpad}
+    \[
+      z\:\colon\:\mathbb{N} \:\to\: \mathbb{C}
+    \]
+  \end{mathpad}
+と定義できる. このとき $\{z_n\}$ の部分列 $\{z_{\ell(n)}\}$ を与える $\ell$ は自然数から自然数への写像であり, 
+\begin{mathpad}
+  \[
+    \ell\:\colon\:\mathbb{N} \:\to\: \mathbb{N}
+  \]
+\end{mathpad}
+とみなせる. よって合成写像 $z\circ \ell$ は
+\begin{mathpad}
+  \[
+    z\circ \ell\:\colon\:\mathbb{N} \:\to\: \mathbb{C}
+  \]
+\end{mathpad}
+となり, 自然数 $n$ に対応する部分列の項は
+\begin{mathpad}
+  \[
+    z_{\ell(n)} \:=\: (z\circ \ell)(n)
+  \]
+\end{mathpad}
+と表される. すなわちこのような合成写像を与えることで部分列を特定できる. 
+
+\begin{proposition}{部分列と収束の関係}{prop3}
+  複素数列 $\{z_n\}$ が複素数 $\alpha\:\in\:\mathbb{C}$ に収束することと, 
+  $\{z_n\}$ の任意の部分列 $\{z_{\ell(n)}\}$ が $\alpha$ に収束することは同値である. 
+\end{proposition}
+
+
+\begin{tproof}{命題2.3の証明}{prf5}
+  \begin{pstep}{$\mathrm{i}$}
+\begin{mathpad}
+      \[
+        z_n \:\to\: \alpha \:\Longrightarrow\:z_{\ell(n)} \:\to\: \alpha \tag{\bigstar}
+      \]
+\end{mathpad}
+    を示す. 
+    収束の定義から任意の $\varepsilon \:>\: 0$ に対してある $N$ が存在して, 
+\begin{mathpad}
+      \[
+        n \:\geq\: N \:\Longrightarrow\: \lvert z_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+\end{mathpad}
+    が成立する. 一方 $\ell(n)\:\to\:\infty$ であるから, ある $K$ が存在して 
+\begin{mathpad}
+      \[
+        n\:\geq\:K \:\Longrightarrow\: \ell(n)\:\geq\:N
+      \] 
+\end{mathpad}
+    したがって任意の $\varepsilon\:(\:>0)$ に対して, 
+\begin{mathpad}
+      \[
+        n \:\geq\: K \:\Longrightarrow\: \lvert z_{\ell(n)} \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+\end{mathpad}
+    であり, 任意の部分列 $\{z_{\ell(n)}\}$ は $\alpha$ に収束する. よって $(\bigstar)$ は題意満足. 
+  \end{pstep}
+  \begin{pstep}{$\mathrm{ii}$}
+    \begin{mathpad}
+      \[
+         z_{\ell(n)} \:\to\: \alpha \:\Longrightarrow\: z_n \:\to\: \alpha \tag{\spadesuit}
+      \]
+    \end{mathpad}
+    を示す. 
+    ここで $z_n$ が $\alpha$ に収束しないと仮定する. すなわち収束の定義の否定より, 
+\begin{mathpad}
+      \[
+        ^\exists\varepsilon \:>\: 0 \:,\:\:^\forall N \:,\:\: ^\exists n \:\geq\: N \:\colon\: \lvert z_n \:-\: \alpha \rvert \:\geq\: \varepsilon
+      \]
+\end{mathpad}
+    が成立する. これを用いて部分列を作る. 
+    $\ell(1)\:(\:\geq\:1)$ を     
+\begin{mathpad}
+      \[
+        \lvert z_{\ell(1)} \:-\: \alpha \rvert \:\geq\: \varepsilon
+      \]
+\end{mathpad}
+    を満足するようにとる. 次に $\ell(2)\:(\:>\:\ell(1))$ を
+\begin{mathpad}
+      \[
+        \lvert z_{\ell(2)} \:-\: \alpha \rvert \:\geq\: \varepsilon
+      \]
+\end{mathpad}
+    を満たすようにとる. 以降同様にして $\ell(k \:+\: 1) \:(\:>\:\ell(k))$ を
+\begin{mathpad}
+      \[
+        \lvert z_{\ell(k+1)} \:-\: \alpha \rvert \:\geq\: \varepsilon
+      \]
+\end{mathpad}
+    を満たすようにとる. このように得られた部分列 $\{z_{\ell(j)}\:\:(j\:=\:1\:,\:\:2\:,\:\:\cdots)\}$ は任意の $j$ で
+\begin{mathpad}
+      \[
+        \lvert z_{\ell(j)} \:-\: \alpha \rvert \:\geq\: \varepsilon
+      \]
+\end{mathpad}
+    を満たす部分列であるため $\alpha$ の $\varepsilon$ 近傍には収まらない. 
+    よって
+\begin{mathpad}
+      \[
+        z_{\ell(j)} \:\nrightarrow\: \alpha
+      \]
+\end{mathpad}
+    これは任意の部分列が $\alpha$ に収束するという前提に矛盾する. 
+    したがって $z_n$ は $\alpha$ に収束しないという仮定は誤りで, 
+\begin{mathpad}
+      \[
+        z_n \:\to\: \alpha
+      \]
+\end{mathpad}
+    が成立する. (背理法) したがって $(\spadesuit)$ は題意満足. 
+  \end{pstep}
+  \textbf{$(\mathrm{i})\:,\:\:(\mathrm{ii})$}より, 命題2.3の成立が示せた. 
+  (\blacksquare)
+\end{tproof}
+
+\begin{sidebox}[TBgray]{補足}
+  論理式 $A_1\:,\:\:A_2\:,\:\:,\:\cdots\:,\:\:An\:,\:\:B$ と恒偽式 $\bot$ について以下の2つの主張は互いに必要十分である. 
+  
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+        leftmargin=3.2em,
+        labelwidth=2.0em,      % ←番号エリア幅を固定
+        labelsep=0.8em,
+        align=left]
+    \item $A_1\:,\:\:A_2\:,\:\:,\:\cdots\:,\:\:An \:\vDash\: B$
+    \item $A_1\:,\:\:A_2\:,\:\:,\:\cdots\:,\:\:An\:,\:\:^\neg\hspace{0.1em}B \:\vDash\: \bot$
+  \end{enumerate}
+  記号の意味については以下のようにまとめる. 
+  \begin{itemize}
+    \item $^\neg\hspace{0.5em}$ 否定 (not)
+    \item $\bot\hspace{0.5em}$ 矛盾 (False)
+    \item $\vDash\hspace{0.5em}$ 意味的含意: $P\:\vDash\:Q$ において $P$ が真で $Q$ が偽の場合全体が偽になりそれ以外は真となる.
+  \end{itemize}
+    すなわち, $(2)$ の主張とは次のようなものである. 
+    \begin{mathpad}
+      \[
+        A_1\:\land\:A_2\:\land\:\cdots\:\land\:A_n\:\land\:^\neg\hspace{0.1em}B
+      \]
+    \end{mathpad}
+    が真になる場合が存在しない, すなわちこの論理式は偽である. 
+  
+    このことは次のような証明により与えられる. 
+  \begin{tproof}{命題論理における背理法の証明}{prf6}
+\begin{mathpad}
+          \[
+            P \:=\: A_1\:\land\:A_2\:\land\:\cdots\:\land\:A_n
+          \]
+  \end{mathpad}
+        とすると $P\Longrightarrow B$ が真になることを示す. 初めに両辺否定を取ると, 
+  \begin{mathpad}
+          \[
+            ^\neg \hspace{0.1em}(P \:\Longrightarrow\: B) \:\iff\: P \:\land\: ^\neg \hspace{0.1em}B
+          \]
+  \end{mathpad}
+        すなわち $P \:\land\: ^\neg \hspace{0.1em}B$ が偽 (矛盾)になることを示せばよく, $P \:\land\: ^\neg \hspace{0.1em}B$ については結合法則から
+  \begin{mathpad}
+          \[
+            P \:\land\: ^\neg \hspace{0.1em}B \:=\: A_1\:\land\:A_2\:\land\:\cdots\:\land\:A_n \:\land\: ^\neg \hspace{0.1em}B \tag{\maltese}
+          \]
+  \end{mathpad}
+        が成り立つので $(\maltese)$ が偽になることと同値であることがいえる. 
+      (\blacksquare)
+      \tcblower%
+      \begin{center}
+        \begin{tabular}{c c | c | c c} %chktex 44
+          $P$ & $B$ & $^\neg\hspace{0.1em}P$ & $P \:\Longrightarrow\: B$ & $^\neg\hspace{0.1em}P \:\vee\: B$ \\
+          \hline %chktex 44
+          T & T & F & T & T  \\
+          T & F & F & F & F  \\
+          F & T & T & T & T  \\
+          F & F & T & T & T  \\
+        \end{tabular}
+      \end{center}
+      したがって, 
+  \begin{mathpad}
+        \[
+          P \:\Longrightarrow\: B \:\iff\: (^\neg \hspace{0.1em}P \:\vee\: B)
+        \]
+  \end{mathpad}
+      である. 
+  \end{tproof}
+\end{sidebox}
+\clearpage
+ここまでの内容についての以下の例題を解いてみよう. 
+\begin{exproblem}{複素数列の収束と極限値}{expr2}
+\begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+      leftmargin=3.2em,
+      labelwidth=2.0em,      % ←番号エリア幅を固定
+      labelsep=0.8em,
+      align=left]
+  \item 複素数列 $z_n \:=\: \dfrac{\:{(-1)}^n \:+\: i\:}{\:n\:}$ に対して, $n\:\to\:\infty$ としたときの基本性質は以下のようにまとめられる収束するかどうかを調べ, 収束するならその極限値を求めよ.
+  \item 複素数列 $\omega_n \:=\: i\hspace{0.1em}{(-1)}^n$ に対して, 以下 (1)と同様
+\end{enumerate}
+\tcblower%
+\textbf{【解答】}\par
+\begin{pstep}{1}
+  任意の部分列 $\{z_{\ell(n)}\}$ をとる. このとき
+  \begin{mathpad}
+    \[
+      z_{\ell(n)} \:=\: \dfrac{\:{(-1)}^{\ell(n)} \:+\: i\:}{\:\ell(n)\:}
+    \]
+  \end{mathpad}
+  である. したがって
+  \begin{mathpad}
+    \[
+      0 \:\leq\: \lvert z_{\ell(n)} \rvert
+      \:=\: \dfrac{\:\lvert {(-1)}^{\ell(n)} \:+\: i \rvert\:}{\:\ell(n)\:}
+      \:\leq\: \dfrac{\:\lvert {(-1)}^{\ell(n)} \rvert \:+\: \lvert i \rvert\:}{\:\ell(n)\:}
+      \:=\: \dfrac{\:2\:}{\:\ell(n)\:}
+    \]
+  \end{mathpad}
+  が成り立つ. また $\ell(n)$ は単調増加関数であるから $\ell(n)\:\to\:\infty$ であり,
+  \begin{mathpad}
+    \[
+      \dfrac{\:2\:}{\:\ell(n)\:} \:\to\: 0 \hspace{0.5em} (n\:\to\:\infty)
+    \]
+  \end{mathpad}
+  となる. よってはさみうちの原理より
+  \begin{mathpad}
+    \[
+      z_{\ell(n)} \:\to\: 0 \hspace{0.5em} (n\:\to\:\infty)
+    \]
+  \end{mathpad}
+  を得る. 任意の部分列が $0$ に収束するので, 命題2.3より
+  \begin{mathpad}
+    \[
+      z_n \:\to\: 0
+    \]
+  \end{mathpad}
+  である. 
+\end{pstep}
+\begin{pstep}{2}
+  複素数列 $\omega_n \:=\: i\hspace{0.1em}{(-1)}^n$ について, 偶数項と奇数項の部分列を考える. 
+  \begin{mathpad}
+    \[
+      \omega_{2n} \:=\: i\hspace{0.1em}{(-1)}^{2n} \:=\: i,\qquad
+      \omega_{2n+1} \:=\: i\hspace{0.1em}{(-1)}^{2n+1} \:=\: -i
+    \]
+  \end{mathpad}
+  となり, 2つの部分列は異なる極限値 $i$ と $-i$ をもつ. 
+  よって $\{\omega_n\}$ は収束しない. 
+\end{pstep}
+\end{exproblem}
+
+非収束判定において強力なツールといえる.
+
+\:
+\[\]
+\:
+ここまで部分列と収束可能性, そして有界性について考えてきたが, 
+ここで大事な定理を紹介する. ただしこれは $\mathbb{C}$ に対して適用したもので一般化はここでは割愛する. 
+
+\begin{theorem}{ボルツァーノ・ワイエルシュトラスの定理}{theorem1}
+  複素数列 $\{z_n\}$ が有界であれば, $\{z_n\}$ は $\mathbb{C}$ 上の点に収束する部分列をもつ. 
+\end{theorem}
+
+\begin{tproof}{ボルツァーノ・ワイエルシュトラスの定理 ($\mathbb{C}$ の場合) の証明}{prf7}
+  \begin{pstep}{$\mathrm{i}$}
+    まず $\mathbb{R}$ においてこの定理を示す. 
+    つまり, 
+\begin{mathpad}
+      \[
+        \{a_n\} \:\:\text{が有界} \:\Longrightarrow\: \{a_n\} は\mathbb{R}上の点に収束する部分列をもつ \tag{\bigstar}
+      \]
+\end{mathpad}
+    を示す. $\{a_n\}$ が有界であるとき, $\{a_n\}$ の全ての数列の要素はある有限な閉区間 $I_1 \:=\: [L\:,\:\:R]$ に収まる. 
+    $I_1$ をちょうど半分の区間で分割すると有限個しか要素が含まれない区間と無限個の要素が含まれる区間に分けられる. (区間縮小法)
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\linewidth]{../../out/img/ch02_figure_9.pdf}
+      \caption{区間縮小法}\label{fig:fig9}
+    \end{figure}
+
+    無限個の要素が含まれる区間を $I_2$ として同様の操作を繰り返す. 
+    するとこの区間列 $\{I_k\}$ は入れ子構造で $I_{k+1} \:\subset\: I_k$ となる. 
+    さらに操作を繰り返すたびに幅の大きさは元の幅の大きさの半分になるため, いずれ区間の幅は0に近づく. 
+    %==============   
+    %ここに写真を挿入   
+    %==============
+    最終的に実数の連続性から全ての区間に共通して含まれる一点が生まれる. 
+    この点を $\alpha$ を極限値にもつような部分列 $\{a_{\ell(n)}\}$ を作る. 
+  
+    第1項 $\{a_{\ell(1)}\}$ は $I_1$ の中から適当に選ぶ. 
+  
+    第2項 $\{a_{\ell(2)}\}$ は $I_2$ の中から $\ell(1) \:<\: \ell(2)$ を満たすように選ぶ
+  
+    \begin{center}
+      $\vdots$
+    \end{center}
+  
+    第k項 $\{a_{\ell(k)}\}$ は $I_k$ の中から $\ell(k-1) \:<\: \ell(k)$ を満たすように選ぶ
+    
+    $\{a_{\ell(k)}\}$ は常に区間 $I_k$ のなかに存在する. また $I_k$ の幅は0に近づきかつ点 $\alpha$ を含むため, 
+    はさみうちの原理から
+\begin{mathpad}
+      \[
+        \displaystyle \lim_{k\to \infty} a_{\ell(k)} \:=\: \alpha
+      \]
+\end{mathpad}
+    となる. したがって $(\bigstar)$は題意満足. 
+  \end{pstep}
+  \begin{pstep}{$\mathrm{ii}$}
+    次に $\mathbb{C}$ においてこの定理が成り立つことを示す. 
+    
+    $z_n \:=\: x_n \:+\: i\hspace{0.1em}y_n$ とすると $\{z_n\}$ は有界より, 
+\begin{mathpad}
+      \[
+        \lvert z_n \rvert \:\leq\: M
+      \]
+\end{mathpad}
+    とかける. これより
+\begin{mathpad}
+      \[
+        \lvert x_n \rvert \:\leq\: \lvert z_n \rvert \:\leq\: M \:\:,\:\:\:\lvert y_n \rvert \:\leq\: \lvert z_n \rvert \:\leq\: M
+      \]
+\end{mathpad}
+    となり実数列 $\{x_n\}$ と $\{y_n\}$ はいずれも有界である. 
+  
+    \textbf{$(\mathrm{i})$}より $\{x_n\}$ は収束部分列を持ち, $n\:\to\:\ell(n)$ として
+    部分列 $x_{\ell(n)}$ が $\alpha$ に収束するような $\ell(n)$ と $\alpha$ が存在する. つまり, 
+\begin{mathpad}
+      \[
+        x_{\ell(n)} \:\to\: \alpha
+      \]
+\end{mathpad}
+    がいえる. 
+    
+    ここで $\{y_{\ell(k)}\}$ の収束部分列をとり, $k \:\mapsto\: m(k)$ とする. 
+    これは $\{y_n\}$ の部分列の部分列であり, 添字は $\ell(m(k))$ の形でそろう. 
+\begin{mathpad}
+      \[
+        y_{\ell(m(k))} \:\to\: \beta
+      \]
+\end{mathpad}
+    が成立する. このとき $x_{\ell(m(k))}$ も部分列であるから
+\begin{mathpad}
+      \[
+        x_{\ell(m(k))} \:\to\: \alpha
+      \]
+\end{mathpad}
+    が成立する. よって $\{z_n\}$ の部分列として
+\begin{mathpad}
+      \[
+        z_{\ell(m(k))} \:=\: x_{\ell(m(k))} \:+\: i\hspace{0.1em}y_{\ell(m(k))}
+      \]
+\end{mathpad}
+    をとれば, $k\:\to\:\infty$ で
+\begin{mathpad}
+      \[
+        z_{\ell(m(k))} \:\to\: \alpha \:+\: i\hspace{0.1em}\beta
+      \]
+\end{mathpad}
+    に従う. 
+  \end{pstep}
+  \[\]
+  よって, $\{z_n\}$ は収束部分列をもつことがいえる. (\blacksquare) %chktex 12
+\end{tproof}
+
+\begin{sidebox}[TBgray]{補足}
+\begin{tproof}{はさみうちの原理（実数列）}{prf7}
+    実数列 $\{a_n\},\:\{b_n\},\:\{c_n\}$ が
+    \begin{mathpad}
+      \[
+        \lim_{n\to\infty} a_n \:=\: \lim_{n\to\infty} b_n \:=\: \alpha \:\in\: \mathbb{R}
+      \]
+      \[
+        a_n \:\leq\: c_n \:\leq\: b_n \hspace{0.5em}(n\:\geq\:1)
+      \]
+    \end{mathpad}
+    を満たすとする. 任意の $\varepsilon \:>\: 0$ に対し, ある $N_1,\:N_2$ が存在して
+    \begin{mathpad}
+      \[
+        n \:\geq\: N_1 \:\Longrightarrow\: \lvert a_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+      \[
+        n \:\geq\: N_2 \:\Longrightarrow\: \lvert b_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+    \end{mathpad}
+    が成立する. ここで $N\:=\:\max(N_1\:,\:\:N_2)$ とすると, $n\:\geq\:N$ で
+    \begin{mathpad}
+      \[
+        -\varepsilon \:<\: a_n \:-\: \alpha \:\leq\: c_n \:-\: \alpha \:\leq\: b_n \:-\: \alpha \:<\: \varepsilon
+      \]
+    \end{mathpad}
+    が成り立つ. よって
+    \begin{mathpad}
+      \[
+        \lvert c_n \:-\: \alpha \rvert \:<\: \varepsilon
+      \]
+    \end{mathpad}
+    となり, $\displaystyle \lim_{n\to\infty} c_n \:=\: \alpha$ が示せた. 
+    (\blacksquare)
+  \end{tproof}
+
+  \begin{tproof}{複素数列におけるはさみうちの原理の補足1}{prf8}
+    複素数列 $\{z_n\}$ を $z_n\:=\:x_n\:+\:i\hspace{0.1em}y_n$ とする. 
+    実数列 $\{a_n\},\:\{b_n\},\:\{c_n\},\:\{d_n\}$ が
+    \begin{mathpad}
+      \[
+        a_n \:\leq\: x_n \:\leq\: b_n,\qquad c_n \:\leq\: y_n \:\leq\: d_n
+      \]
+      \[
+        \lim_{n\to\infty} a_n \:=\: \lim_{n\to\infty} b_n \:=\: \alpha,\qquad
+        \lim_{n\to\infty} c_n \:=\: \lim_{n\to\infty} d_n \:=\: \beta
+      \]
+    \end{mathpad}
+    を満たすとき, はさみうちの原理より $x_n\:\to\:\alpha,\:\:y_n\:\to\:\beta$ である. 
+    よって
+    \begin{mathpad}
+      \[
+        z_n \:\to\: \alpha \:+\: i\hspace{0.1em}\beta
+      \]
+    \end{mathpad}
+    が成立する. 
+    (\blacksquare)
+  \end{tproof}
+
+  \begin{tproof}{複素数列におけるはさみうちの原理の補足2}{prf9}
+    複素数列 $\{z_n\}$ と $\alpha\:\in\:\mathbb{C}$, 実数列 $\{r_n\}$ をとり,
+    $r_n\:\geq\:0$ かつ
+    \begin{mathpad}
+      \[
+        \lvert z_n \:-\: \alpha \rvert \:\leq\: r_n
+      \]
+    \end{mathpad}
+    を満たすとする. さらに $r_n\:\to\:0$ とすると, 任意の $\varepsilon \:>\: 0$ に対しある $N$ が存在して
+    \begin{mathpad}
+      \[
+        n \:\geq\: N \:\Longrightarrow\: r_n \:<\: \varepsilon
+      \]
+    \end{mathpad}
+    が成立する. したがって
+    \begin{mathpad}
+      \[
+        \lvert z_n \:-\: \alpha \rvert \:\leq\: r_n \:<\: \varepsilon
+      \]
+    \end{mathpad}
+    となり, $z_n\:\to\:\alpha$ が示せた. 
+    (\blacksquare)
+  \end{tproof}
+\end{sidebox}
+
+%part3
+\subsection{コーシー (Cauchy) の判定法}
+複素数列の収束を示すもうひとつの基準にコーシー (Cauchy) の判定法 (コーシーの定理) がある. 
+
+\begin{theorem}{コーシー (Cauchy) の判定法}{theorem2}
+  以下の2つの主張は同値な関係になっている. 
+
+\begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+      leftmargin=3.2em,
+      labelwidth=2.0em,      % ←番号エリア幅を固定
+      labelsep=0.8em,
+      align=left]
+  \item 複素数列 $\{z_n\}$ が収束する
+  \item 任意の $\varepsilon \:>\: 0$ に対してある $N$ が存在し, 任意の $n,\:m \:\geq\: N$ に対して
+   \begin{mathpad}
+   \[
+  \lvert z_n \:-\: z_m \rvert \:<\: \varepsilon
+   \]
+   \end{mathpad}
+   が成立する
+\end{enumerate}
+  また (2)を満たすような数列のことを\textbf{コーシー列}という. 
+\end{theorem}
+
+\begin{tproof}{コーシーの判定法の証明}{prf10}
+  \begin{pstep}{$\mathrm{i}$}
+\begin{mathpad}
+      \[
+        \{z_n\}\:\:\text{が収束} \:\Longrightarrow\: \{z_n\}\:\:\text{はコーシー列} \tag{\bigstar}
+      \]
+\end{mathpad}
+    を示す. $z_n\:\to\:z$ とすると, 収束の定義より任意の $\varepsilon \:>\: 0$ に対してある $N$ が存在して
+\begin{mathpad}
+      \[
+        n \:\geq\: N \:\Longrightarrow\: \lvert z_n \:-\: z \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:}
+      \]
+\end{mathpad}
+    が成立する. 三角不等式より
+\begin{mathpad}
+      \[
+        \lvert z_n \:-\: z_m \rvert \:=\: \bigl\lvert (z_n \:-\: z) \:-\: (z_m \:-\: z) \bigr\rvert
+        \:\leq\: \lvert z_n \:-\: z \rvert \:+\: \lvert z_m \:-\: z \rvert
+      \]
+      \[
+        \leq\: \dfrac{\:\varepsilon\:}{\:2\:} \:+\: \dfrac{\:\varepsilon\:}{\:2\:} \:=\: \varepsilon
+      \]
+\end{mathpad}
+    となるので $\{z_n\}$ はコーシー列である. よって $(\bigstar)$ は題意満足. 
+  \end{pstep}
+  \begin{pstep}{$\mathrm{ii}$}
+    \begin{mathpad}
+      \[
+        \{z_n\}\:\:\text{はコーシー列} \:\Longrightarrow\: \{z_n\}\:\:\text{が収束} \tag{\spadesuit}
+      \]
+    \end{mathpad}
+    を示す. $z_n \:=\: x_n \:+\: i\hspace{0.1em}y_n$ とすると, 
+    \begin{mathpad}
+      \[
+        \lvert x_n \:-\: x_m \rvert \:=\: \lvert \mathrm{Re}(z_n \:-\: z_m) \rvert \:\leq\: \lvert z_n \:-\: z_m \rvert
+      \]
+      \[
+        \lvert y_n \:-\: y_m \rvert \:=\: \lvert \mathrm{Im}(z_n \:-\: z_m) \rvert \:\leq\: \lvert z_n \:-\: z_m \rvert
+      \]
+    \end{mathpad}
+    が成立する. したがって $\{z_n\}$ がコーシー列ならば $\{x_n\},\:\{y_n\}$ もコーシー列である. 
+    いま $\varepsilon\:=\:1$ とすると, ある $N$ が存在して
+    \begin{mathpad}
+      \[
+        n,\:m \:\geq\: N \:\Longrightarrow\: \lvert x_n \:-\: x_m \rvert \:<\: 1
+      \]
+    \end{mathpad}
+    が成立する. 特に $n\:\geq\:N$ で
+    \begin{mathpad}
+      \[
+        \lvert x_n \rvert \:=\: \lvert x_n \:-\: x_{N} \:+\: x_{N} \rvert
+        \:\leq\: \lvert x_n \:-\: x_{N} \rvert \:+\: \lvert x_{N} \rvert \:<\: 1 \:+\: \lvert x_{N} \rvert
+      \]
+    \end{mathpad}
+    となるので, $n \:\geq\: N$ で $\{x_n\}$ は有界である. 
+    
+    また, 
+\begin{mathpad}
+      \[
+      \begin{aligned}
+        M \:=\: \max\bigl\{ \lvert x_1 \rvert \:,\:\: \lvert x_2 \rvert \:,\:\: \cdots \:,\:\: \lvert x_{N-1} \rvert\:,\:\: 1 \:+\: \lvert x_N \rvert \bigr\}
+      \end{aligned}
+      \]
+\end{mathpad}
+    とすると $n \:\leq\: N \:-\: 1$ においても $\{x_n\}$ は有界になることがいえる. $\{y_n\}$ についても同様である. 
+
+    したがって, コーシー列は有界である. 
+
+    ボルツァーノ・ワイエルシュトラスの定理より, 有界な複素数列は収束部分列をもつことがいえ, 
+    $\{x_n\}$ の収束部分列を $\{x_{\ell(n)}\}$ また極限値を $x_{\ell(n)}\:\to\: \alpha$ となるように定めると, 
+    任意の $\varepsilon \:>\: 0$ に対して, コーシー性よりある $N$ が存在して, 
+\begin{mathpad}
+      \[
+          n,\:m \:\geq\: N \:\Longrightarrow\: \lvert x_{\ell(n)} \:-\: x_m \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \tag{\bigstar}
+      \]
+\end{mathpad}
+    が成立する. $x_{\ell(n)} \:\to\: \alpha$ よりある $N_1$ が存在して, 
+\begin{mathpad}
+      \[
+        n \:\geq\: N_1 \:\Longrightarrow\: \lvert x_{\ell(n)} \:-\: \alpha \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \tag{\spadesuit}
+      \]
+\end{mathpad}
+    が成立する. また $\ell(n) \:\to\: \infty$ よりある $N_2$ が存在して, 
+\begin{mathpad}
+      \[
+        n \:\geq\: N_2 \:\Longrightarrow\: \ell(n) \:\geq\: N \tag{\natural}
+      \]
+\end{mathpad}
+    ここで, 
+\begin{mathpad}
+      \[
+        n_0 \:=\: \max\bigl\{ N_1 \:,\:\: N_2\bigr\}
+      \]
+      とすると
+\end{mathpad} $(\spadesuit)\:,\:\:({\natural})$ 式の両方が成立して, 
+\begin{mathpad}
+      \[
+        (\spadesuit) \:\iff\: \lvert x_{\ell(n_0)} \:-\: \alpha \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \tag{\spadesuit '}
+      \]
+      \[
+        (\natural) \:\iff\: \ell(n_0) \:\geq\: N \tag{\natural '}
+      \]
+\end{mathpad}
+    となる. 三角不等式より, 
+\begin{mathpad}
+      \begin{equation}
+      \begin{aligned}
+        \lvert x_n \:-\: \alpha \rvert
+        &\:=\: \lvert (x_n \:-\: x_{\ell(n_0)}) \:+\: (x_{\ell(n_0)} \:-\: \alpha) \rvert \\
+        &\leq\: \lvert x_n \:-\:x_{\ell(n_0)} \rvert \:+\: \lvert x_{\ell(n_0)} \:-\: \alpha \rvert
+      \end{aligned}
+      \tag{\maltese}
+      \end{equation}
+\end{mathpad}
+    が成立する. ここで上で得た $N$ について, $n\:\geq\:N$ かつ $\ell(n_0) \:\geq\: N$ より $m \:=\: \ell(n_0)$ とすると $(\bigstar)$ 式から
+\begin{mathpad}
+      \[
+        \lvert x_n \:-\: x_{\ell(n_0)} \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \tag{\bigstar '}
+      \]
+\end{mathpad}
+    となる. $(\bigstar ')\:,\:\:(\spadesuit ')$ 式を $(\maltese)$ 式に代入して, 
+\begin{mathpad}
+      \[
+        \lvert x_n \:-\: \alpha \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \:+\: \dfrac{\:\varepsilon\:}{\:2\:} \:=\: \varepsilon
+      \]
+\end{mathpad}
+    が得られる. 上式が任意の $\varepsilon \:>\: 0$ で成立するため, $x_n \:\to\: \alpha$ と収束する. 
+    $y_n$ についても同様の議論により, $y_n \:\to\: \beta$ と収束する. 
+
+    したがって, $z_n \:=\: x_n \:+\: i\hspace{0.1em}y_n$ の極限値は
+\begin{mathpad}
+      \[
+        z_n \:\to\: \alpha \:+\: i\hspace{0.1em} \beta
+      \]
+\end{mathpad}
+    と収束する. $(\blacksquare)$ %chktex 12
+
+  \end{pstep}
+	\end{tproof}
+	%par4
+	\subsection{極限計算}
+	2つの複素数列 $\{z_n\}$ と $\{w_n\}$ が与えられ, それらの極限値がそれぞれ $\alpha,\:\beta$ であるとき, 次が成立する. 
+	\begin{sidebox}[TBgray]{補足}
+	  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+	    leftmargin=3.2em,
+	    labelwidth=2.0em,
+	    labelsep=0.8em,
+	    align=left]
+	    \item 数列 $\{z_n \pm w_n\}$ の極限値は収束し, $z_n \pm w_n \:\to\: \alpha \pm \beta\hspace{0.1em}(n\:\to\:\infty)$ が成立する. 
+	    \item 数列 $\{z_n w_n\}$ の極限値は収束し, $z_n w_n \:\to\: \alpha \beta\hspace{0.1em}(n\:\to\:\infty)$ が成立する. 
+	    \item $\beta \:\neq\: 0$ のとき, 数列 $\{z_n / w_n\}$ の極限値は収束し, $z_n / w_n \:\to\: \alpha / \beta\hspace{0.1em}(n\:\to\:\infty)$ が成立する. 
+	  \end{enumerate}
+	\end{sidebox}
+	
+	上式の証明は次のように与えられる. 
+	\begin{tproof}{極限計算の証明}{prf10}
+	  \begin{pstep}{(1)}
+	    収束の定義から, 任意の $\varepsilon \:>\: 0$ に対しある自然数 $N_1,\:N_2$ が存在して
+	    \begin{mathpad}
+	      \[
+	        n \:\geq\: N_1 \:\Longrightarrow\: \lvert z_n \:-\: \alpha \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \tag{\bigstar}
+	      \]
+	      \[
+	        n \:\geq\: N_2 \:\Longrightarrow\: \lvert w_n \:-\: \beta \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \tag{\spadesuit}
+	      \]
+	    \end{mathpad}
+	    が成立する. ここで $N\:=\:\max\{N_1\:,\:\:N_2\}$ とすると, $n\:\geq\:N$ で $(\bigstar)$ と $(\spadesuit)$ が同時に成り立ち, 三角不等式より
+	    \begin{mathpad}
+	      \[
+	        \lvert (z_n \:+\: w_n) \:-\: (\alpha \:+\: \beta) \rvert
+	        \:\leq\: \lvert z_n \:-\: \alpha \rvert \:+\: \lvert w_n \:-\: \beta \rvert
+	        \:<\: \dfrac{\:\varepsilon\:}{\:2\:} \:+\: \dfrac{\:\varepsilon\:}{\:2\:} \:=\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    を得る. よって $z_n \:+\: w_n \:\to\: \alpha \:+\: \beta$ が示された. 同様に
+	    \begin{mathpad}
+	      \[
+	        \lvert (z_n \:-\: w_n) \:-\: (\alpha \:-\: \beta) \rvert
+	        \:\leq\: \lvert z_n \:-\: \alpha \rvert \:+\: \lvert w_n \:-\: \beta \rvert
+	        \:<\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    より $z_n \:-\: w_n \:\to\: \alpha \:-\: \beta$ が成立する. 
+	  \end{pstep}
+	  \begin{pstep}{(2)}
+	    収束する複素数列は有界であるから, ある $M$ が存在して
+	    \begin{mathpad}
+	      \[
+	        \lvert z_n \rvert \:\leq\: M,\qquad \lvert w_n \rvert \:\leq\: M,\qquad \lvert \alpha \rvert \:\leq\: M
+	      \]
+	    \end{mathpad}
+	    が成立する. 任意の $\varepsilon \:>\: 0$ に対し, ある $N_1,\:N_2$ が存在して
+	    \begin{mathpad}
+	      \[
+	        n \:\geq\: N_1 \:\Longrightarrow\: \lvert z_n \:-\: \alpha \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2M\:} \tag{\bigstar '}
+	      \]
+	      \[
+	        n \:\geq\: N_2 \:\Longrightarrow\: \lvert w_n \:-\: \beta \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2M\:} \tag{\spadesuit '}
+	      \]
+	    \end{mathpad}
+	    が成立するようにとる. $N\:=\:\max\{N_1\:,\:\:N_2\}$ とすると, $n\:\geq\:N$ で
+	    \begin{mathpad}
+	      \[
+	        \lvert z_n w_n \:-\: \alpha \beta \rvert
+	        \:=\: \lvert w_n(z_n \:-\: \alpha) \:+\: \alpha (w_n \:-\: \beta) \rvert
+	        \:\leq\: \lvert w_n \rvert \lvert z_n \:-\: \alpha \rvert \:+\: \lvert \alpha \rvert \lvert w_n \:-\: \beta \rvert
+	      \]
+	      \[
+	        \leq\: M \cdot \dfrac{\:\varepsilon\:}{\:2M\:} \:+\: M \cdot \dfrac{\:\varepsilon\:}{\:2M\:}
+	        \:=\: \varepsilon \tag{\maltese}
+	      \]
+	    \end{mathpad}
+	    が成立する. よって $z_n w_n \:\to\: \alpha \beta$ が示された. 
+	  \end{pstep}
+	  \begin{pstep}{(3)}
+	    $\beta \:\neq\: 0$ と仮定する. $w_n \:\to\: \beta$ より, ある $N_0$ が存在して
+	    \begin{mathpad}
+	      \[
+	        n \:\geq\: N_0 \:\Longrightarrow\: \lvert w_n \:-\: \beta \rvert \:<\: \dfrac{\:\lvert \beta \rvert\:}{\:2\:}
+	      \]
+	    \end{mathpad}
+	    が成立する. したがって $n\:\geq\:N_0$ では
+	    \begin{mathpad}
+	      \[
+	        \lvert w_n \rvert \:\geq\: \lvert \beta \rvert \:-\: \lvert w_n \:-\: \beta \rvert \:>\: \dfrac{\:\lvert \beta \rvert\:}{\:2\:}
+	      \]
+	    \end{mathpad}
+	    となり, $w_n \:\neq\: 0$ が従う. さらにある $N_1$ が存在して
+	    \begin{mathpad}
+	      \[
+	        n \:\geq\: N_1 \:\Longrightarrow\: \lvert w_n \:-\: \beta \rvert \:<\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    が成立する. $N\:=\:\max\{N_0\:,\:\:N_1\}$ とおくと, $n\:\geq\:N$ で
+	    \begin{mathpad}
+	      \[
+	        \biggl\lvert \dfrac{1}{w_n} \:-\: \dfrac{1}{\beta} \biggr\rvert
+	        \:=\: \dfrac{\lvert \beta \:-\: w_n \rvert}{\lvert w_n \rvert \lvert \beta \rvert}
+	        \:<\: \dfrac{\:\varepsilon\:}{(\lvert \beta \rvert/2)\lvert \beta \rvert}
+	        \:=\: \dfrac{2\varepsilon}{\lvert \beta \rvert^2}
+	      \]
+	    \end{mathpad}
+	    が成立するので $1/w_n \:\to\: 1/\beta$ が従う. ここで
+	    \begin{mathpad}
+	      \[
+	        \dfrac{z_n}{w_n} \:=\: z_n \cdot \dfrac{1}{w_n}
+	      \]
+	    \end{mathpad}
+	    であり, \textbf{(2)} を用いれば $z_n / w_n \:\to\: \alpha / \beta$ が示された. 
+	  \end{pstep}
+	  (\blacksquare) %chktex 12
+	\end{tproof}
+	
+	\subsection{無限級数}
+	複素数列 $\{z_n\}$ の無限和
+	\begin{mathpad}
+	  \[
+	    \sum_{n=1}^{\infty} z_n
+	  \]
+	\end{mathpad}
+	を無限級数 (infinite series) もしくは級数 (series) と呼ぶ. 複素数列のときと同様に収束の定義を考えるため, まず次のように部分和を用意する. 
+	\begin{mathpad}
+	  \[
+	    S_n \:=\: \sum_{k=1}^{n} z_k
+	  \]
+	\end{mathpad}
+	
+	\begin{sidebox}[TBgray]{定義}
+	  無限級数の収束について次のように定義する. 
+	  \begin{mathpad}
+	    \[
+	      \sum_{k=1}^{\infty} z_k \:\coloneq\: \lim_{n\to\infty} \sum_{k=1}^{n} z_k
+	    \]
+	  \end{mathpad}
+	  すなわち右辺の部分和の極限が存在するとき, 無限級数は収束するという. 
+	\end{sidebox}
+	
+	次に絶対収束の概念を取り入れる. 絶対値を取って得られる級数
+	\begin{mathpad}
+	  \[
+	    \sum_{k=1}^{\infty} \lvert z_k \rvert
+	  \]
+	\end{mathpad}
+	が収束するとき, 級数 $\sum_{k=1}^{\infty} z_k$ は絶対収束すると呼ぶ. 
+	
+	\begin{sidebox}[TBgray]{補足}
+	  \textbf{命題 (無限級数の収束の必要条件)}\par
+	  無限級数 $\sum_{k=1}^{\infty} z_k$ が収束するならば $z_n \:\to\: 0$ が成立する. 
+	\end{sidebox}
+	
+	\begin{tproof}{命題の証明}{prf11}
+	  $S_n \:\to\: \alpha$ とする. このとき
+	  \begin{mathpad}
+	    \[
+	      z_n \:=\: S_n \:-\: S_{n-1}
+	    \]
+	  \end{mathpad}
+	  であるから
+	  \begin{mathpad}
+	    \[
+	      \lim_{n\to\infty} z_n \:=\: \lim_{n\to\infty} (S_n \:-\: S_{n-1})
+	      \:=\: \lim_{n\to\infty} S_n \:-\: \lim_{n\to\infty} S_{n-1}
+	      \:=\: \alpha \:-\: \alpha \:=\: 0
+	    \]
+	  \end{mathpad}
+	  が従う. (\blacksquare) %chktex 12
+	\end{tproof}
+	
+	また収束について, 以下のことが成立する. 
+	\begin{sidebox}[TBgray]{補足}
+	  次の \textbf{(1)} と \textbf{(2)} は同値である. 
+	  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+	    leftmargin=3.2em,
+	    labelwidth=2.0em,
+	    labelsep=0.8em,
+	    align=left]
+	    \item 無限級数 $\sum_{k=1}^{\infty} z_k$ が収束する. 
+	    \item 任意の $\varepsilon \:>\: 0$ と任意の $n_1,\:n_2$ に対し, ある $N$ が存在して
+	      \begin{mathpad}
+	        \[
+	          n_1,\:n_2 \:\geq\: N \:\Longrightarrow\: \biggl\lvert \sum_{k=1}^{n_1} z_k \:-\: \sum_{k=1}^{n_2} z_k \biggr\rvert
+	          \:=\: \biggl\lvert \sum_{k=n_1+1}^{n_2} z_k \biggr\rvert \:<\: \varepsilon
+	        \]
+	      \end{mathpad}
+	      が成立する. 
+	  \end{enumerate}
+	\end{sidebox}
+	
+	
+	
+
+
+\end{flushleft}
+\end{document}
