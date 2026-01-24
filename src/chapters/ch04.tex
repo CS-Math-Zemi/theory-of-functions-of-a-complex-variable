@@ -1,0 +1,270 @@
+\documentclass[../main.tex]{subfiles}
+
+% =============================================
+% 【自動設定】単体ビルド時の章番号補正
+% ファイル名 (chXX) の数字を読み取り、自動でセクション番号を調整します
+% main.tex からビルドする時は無視されます
+% =============================================
+\directlua{
+  local s, e, num = string.find(tex.jobname, "ch(" .. string.char(37) .. "d+)")%chktex 36 %chktex 18 %chktex 12 %chktex 26 %chktex 8
+  if num then
+    tex.print(string.char(92) .. "setcounter{section}{" .. (tonumber(num) - 1) .. "}")%chktex 36 %chktex 18 %chktex 12 %chktex 26 %chktex 8
+  end
+}
+
+\begin{document}
+\begin{flushleft}
+
+\section{複素関数の微分}
+
+\subsection{滑らかさ}
+複素関数 $f$ を
+\begin{mathpad}
+  \[
+    f(z)\:=\:u(x,y)+iv(x,y)\quad (z=x+iy)
+  \]
+\end{mathpad}
+と書き, 実部 $u$, 虚部 $v$ を実二変数関数として扱う. 以降は $u$ と $v$ の偏導関数を用いて, 複素関数の滑らかさを整理する. 
+
+\begin{definition}{偏導関数}{def:partial-derivative}
+  点 $(x,y)$ において
+  \begin{mathpad}
+    \[
+      \pdv{u}{x}(x,y)\:=\:\lim_{\Delta x\to 0}\dfrac{u(x+\Delta x,y)-u(x,y)}{\Delta x},\quad
+      \pdv{u}{y}(x,y)\:=\:\lim_{\Delta y\to 0}\dfrac{u(x,y+\Delta y)-u(x,y)}{\Delta y}
+    \]
+  \end{mathpad}
+  が存在するとき, それぞれを $u$ の $x$・$y$ 方向の偏導関数という. $v$ についても同様に定義する. 
+\end{definition}
+
+ここでのポイントは, $x$ 方向・$y$ 方向の「切り分け」である. つまり $y$ を固定して $x$ だけを動かすときの変化が $u_x$, $x$ を固定して $y$ だけを動かすときの変化が $u_y$ である. 
+微小な変化に対しては
+\begin{mathpad}
+  \[
+    u(x+\Delta x,y+\Delta y)\approx u(x,y)+u_x\Delta x+u_y\Delta y
+  \]
+\end{mathpad}
+と近似できる. ここで $u_x$ は $y$ を固定した断面における $x$ 方向の傾きであり, $u_x\Delta x$ は $x$ 方向に $\Delta x$ だけ動いたときの変化量を表している. 
+同様に $u_y$ は $x$ を固定した断面の $y$ 方向の傾きで, $u_y\Delta y$ は $y$ 方向の変化量を表す. 
+したがって $u_x\Delta x+u_y\Delta y$ は, $x$ 方向と $y$ 方向の変化量を足し合わせた一次近似になっていると理解できる. 
+同様に $v$ の偏導関数は虚部の変化量を同じ形で与える. 
+
+\begin{figure}[H]
+  \centering
+\includegraphics[width=0.9\linewidth]{img/fig4-0.pdf}%chktex 8
+  \caption{偏導関数と一次近似の幾何的意味}\label{fig:fig4-0}
+\end{figure}
+
+\begin{definition}{$C^1$ 級, $C^n$ 級}{def:cn}
+  領域 $D\subset\mathbb{C}$ で $u,\:v$ の偏導関数 $u_x,\:u_y,\:v_x,\:v_y$ が存在して連続であるとき, $f$ は $D$ 上で $C^1$ 級であるという. 
+  さらに任意の $k\leq n$ について $k$ 階の偏導関数が存在して連続であるとき, $f$ は $D$ 上で $C^n$ 級であるという. 
+\end{definition}
+
+\begin{example}{2乗関数の滑らかさ}{ex:smooth-square}
+  $f(z)\:=\:z^2$ とすると
+  \begin{mathpad}
+    \[
+      u(x,y)\:=\:x^2-y^2,\quad v(x,y)\:=\:2xy
+    \]
+  \end{mathpad}
+  である. よって
+  \begin{mathpad}
+    \[
+      u_x=2x,\quad u_y=-2y,\quad v_x=2y,\quad v_y=2x
+    \]
+  \end{mathpad}
+  は全て連続であり, $f$ は $\mathbb{C}$ 上で $C^1$ 級である. 
+\end{example}
+
+\subsection{全微分可能性}
+複素関数を $f(x,y)\:=\:(u(x,y),v(x,y))$ とみなし, $\mathbb{R}^2\to\mathbb{R}^2$ の写像として微分可能性を考える. 
+
+\begin{definition}{全微分可能性}{def:total-differentiability}
+  点 $(x,y)$ において, ある線形写像 $L\colon\mathbb{R}^2\to\mathbb{R}^2$ が存在して
+  \begin{mathpad}
+    \[
+      f(x+\Delta x,y+\Delta y)-f(x,y)\:=\:L(\Delta x,\Delta y)+o(r)
+    \]
+  \end{mathpad}
+  が $r\:=\:\sqrt{(\Delta x){}^2+(\Delta y){}^2}\to 0$ で成り立つとき, $f$ は点 $(x,y)$ で全微分可能という. 
+\end{definition}
+
+\begin{proposition}{全微分可能性の十分条件}{prop:total-diff}
+  $u,v$ が $D$ 上で $C^1$ 級ならば, $f$ は $D$ 上で全微分可能である. 
+\end{proposition}
+
+\begin{tproof}{命題の証明}{prf:total-diff}
+  \begin{pstep}{1}
+    $u$ が $C^1$ 級であるとき, ある連続な関数 $\varepsilon_u(\Delta x,\Delta y)$ が存在して
+    \begin{mathpad}
+      \[
+        u(x+\Delta x,y+\Delta y)=u(x,y)+u_x\Delta x+u_y\Delta y+\varepsilon_u(\Delta x,\Delta y)\,r
+      \]
+    \end{mathpad}
+    が成立し, $r\to 0$ で $\varepsilon_u\to 0$ となる. $v$ についても同様に
+    \begin{mathpad}
+      \[
+        v(x+\Delta x,y+\Delta y)=v(x,y)+v_x\Delta x+v_y\Delta y+\varepsilon_v(\Delta x,\Delta y)\,r
+      \]
+    \end{mathpad}
+    が成立する. 
+  \end{pstep}
+  \begin{pstep}{2}
+    以上より
+    \begin{mathpad}
+      \[
+        f(x+\Delta x,y+\Delta y)-f(x,y)
+        =
+        \begin{pmatrix}
+          u_x & u_y\\
+          v_x & v_y
+        \end{pmatrix}
+        \begin{pmatrix}
+          \Delta x\\
+          \Delta y
+        \end{pmatrix}
+        +
+        \begin{pmatrix}
+          \varepsilon_u\\
+          \varepsilon_v
+        \end{pmatrix}
+        r
+      \]
+    \end{mathpad}
+    となるので, 右辺の第2項が $o(r)$ であることが分かる. よって $f$ は全微分可能である. 
+  \end{pstep}
+  (\blacksquare) %chktex 12
+\end{tproof}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{img/fig4-1.pdf}%chktex 8
+  \caption{全微分による一次近似のイメージ}\label{fig:fig4-1}
+\end{figure}
+
+\subsection{ヤコビ行列と微分の意味}
+全微分可能なとき, 行列
+\begin{mathpad}
+  \[
+    \mathrm{Jac}_f(x,y)\:=\:
+    \begin{pmatrix}
+      u_x & u_y\\
+      v_x & v_y
+    \end{pmatrix}
+  \]
+\end{mathpad}
+を $f$ のヤコビ行列とよぶ. このとき
+\begin{mathpad}
+  \[
+    f(x+\Delta x,y+\Delta y)-f(x,y)\approx \mathrm{Jac}_f(x,y)
+    \begin{pmatrix}
+      \Delta x\\
+      \Delta y
+    \end{pmatrix}
+  \]
+\end{mathpad}
+となり, $f$ は微小なベクトルをほぼ線形変換として写す. 
+
+\begin{proposition}{接ベクトルの対応}{prop:tangent-map}
+  曲線 $\gamma(t)=(x(t),y(t))$ が $t_0$ で滑らかで, $f$ が点 $(x(t_0),y(t_0))$ で全微分可能ならば
+  \begin{mathpad}
+    \[
+      \dv{}{t}f(\gamma(t))\Bigm|_{t=t_0}
+      =
+      \mathrm{Jac}_f(x(t_0),y(t_0))
+      \begin{pmatrix}
+        x'(t_0)\\
+        y'(t_0)
+      \end{pmatrix}
+    \]
+  \end{mathpad}
+  が成り立つ. すなわち接ベクトルはヤコビ行列で写る. 
+\end{proposition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{img/fig4-2.pdf}%chktex 8
+  \caption{接ベクトルの対応}\label{fig:fig4-2}
+\end{figure}
+
+\subsection{複素微分可能性と微分}
+複素関数の微分は, 実二変数の微分よりも厳しい条件を課す. 
+
+\begin{definition}{複素微分可能性}{def:complex-differentiability}
+  点 $z_0$ の近くで定義された複素関数 $f$ に対し
+  \begin{mathpad}
+    \[
+      \lim_{h\to 0}\dfrac{f(z_0+h)-f(z_0)}{h}
+    \]
+  \end{mathpad}
+  が存在するとき, $f$ は $z_0$ で複素微分可能であるという. この極限値を $f'(z_0)$ と書き, $f$ の微分係数とよぶ. 
+\end{definition}
+
+\begin{proposition}{コーシー・リーマンの必要条件}{prop:cr-necessary}
+  $f(z)=u(x,y)+iv(x,y)$ が $z_0=x_0+iy_0$ で複素微分可能ならば, $u,v$ の偏導関数が存在して
+  \begin{mathpad}
+    \[
+      u_x(x_0,y_0)=v_y(x_0,y_0),\quad u_y(x_0,y_0)=-v_x(x_0,y_0)
+    \]
+  \end{mathpad}
+  が成り立つ. さらに
+  \begin{mathpad}
+    \[
+      f'(z_0)=u_x(x_0,y_0)+iv_x(x_0,y_0)=v_y(x_0,y_0)-iu_y(x_0,y_0)
+    \]
+  \end{mathpad}
+  が成立する. 
+\end{proposition}
+
+\begin{tproof}{命題の証明}{prf:cr-necessary}
+  \begin{pstep}{1}
+    $h$ を実数とすると
+    \begin{mathpad}
+      \[
+        \dfrac{f(z_0+h)-f(z_0)}{h}
+        =
+        \dfrac{u(x_0+h,y_0)-u(x_0,y_0)}{h}
+        +i\dfrac{v(x_0+h,y_0)-v(x_0,y_0)}{h}
+      \]
+    \end{mathpad}
+    であるから, $h\to 0$ により
+    \begin{mathpad}
+      \[
+        f'(z_0)=u_x(x_0,y_0)+iv_x(x_0,y_0)
+      \]
+    \end{mathpad}
+    を得る. 
+  \end{pstep}
+  \begin{pstep}{2}
+    $h=ik$ ($k\in\mathbb{R}$) とおけば
+    \begin{mathpad}
+      \[
+        \dfrac{f(z_0+ik)-f(z_0)}{ik}
+        =
+        \dfrac{v(x_0,y_0+k)-v(x_0,y_0)}{k}
+        -i\dfrac{u(x_0,y_0+k)-u(x_0,y_0)}{k}
+      \]
+    \end{mathpad}
+    であり, $k\to 0$ から
+    \begin{mathpad}
+      \[
+        f'(z_0)=v_y(x_0,y_0)-iu_y(x_0,y_0)
+      \]
+    \end{mathpad}
+    を得る. 2つの表示を比較してコーシー・リーマン方程式が従う. 
+  \end{pstep}
+  (\blacksquare) %chktex 12
+\end{tproof}
+
+\begin{example}{$f(z)=z^2$ の微分}{ex:complex-derivative-square}
+  $f(z)=z^2$ は全ての $z$ で複素微分可能であり
+  \begin{mathpad}
+    \[
+      f'(z)=2z
+    \]
+  \end{mathpad}
+  が成立する. 
+\end{example}
+
+\end{flushleft}
+\end{document}

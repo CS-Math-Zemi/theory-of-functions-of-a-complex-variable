@@ -687,6 +687,122 @@ $A$ には含まれるが周囲にその点以外の集合 $A$ の要素が存�
   集合 $A$ に含まれるが周囲に同様に含まれるような点が存在しない点のことを\textbf{孤立点}といい, 孤立点の集合を\textbf{離散集合}という.
 \end{definition}
 
+集合 $E\subset\mathbb{C}$ が\textbf{開集合}であるとは, 任意の $z\in E$ が $E$ の内点であることをいう. 
+また補集合 $E^{\mathrm{c}}\coloneq \mathbb{C}\setminus E$ が開集合であるとき, $E$ を\textbf{閉集合}という. 
+境界 $\partial E$ を用いて
+\begin{mathpad}
+  \begin{equation*}
+    \overline{E} \coloneq E \cup \partial E
+  \end{equation*}
+\end{mathpad}
+と定義される集合 $\overline{E}$ を $E$ の\textbf{閉包}とよぶ. 
+さらに, 連結な開集合を\textbf{領域} (domain) という. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{img/fig_boundary_closure.pdf}%chktex 8
+  \caption{境界と閉包のイメージ}\label{fig:fig_boundary_closure}
+\end{figure}
+\begin{character}{開集合の基本性質}{}
+  次が成り立つ. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item $\varnothing$ と $\mathbb{C}$ は開集合である. 
+    \item 開集合の任意の合併は開集合である. 
+      すなわち, 開集合族 $\{U_\lambda\}_{\lambda\in\Lambda}$ に対して %chktex 3
+      \begin{mathpad}
+        \[
+          \bigcup_{\lambda\in\Lambda} U_\lambda
+        \]
+      \end{mathpad}
+      は開集合である. これは「どれか1つの開集合に入っていれば, その近傍も合併に含まれる」ことを意味する. 
+    \item 2つの開集合の共通部分は開集合である. 
+      すなわち, 開集合 $U,\:V$ に対して
+      \begin{mathpad}
+        \[
+          U\cap V
+        \]
+      \end{mathpad}
+      は開集合である. これは「両方に属する点の近傍は, 2つの開集合の共通部分の中にも存在する」ことを意味する. 
+  \end{enumerate}
+\end{character}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig_open_union.pdf}%chktex 8
+  \caption{開集合の合併のイメージ}\label{fig:fig_open_union}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig_open_intersection.pdf}%chktex 8
+  \caption{開集合の共通部分のイメージ}\label{fig:fig_open_intersection}
+\end{figure}
+
+\subsection{閉集合と境界の滑らかさ}
+ここでは閉集合と閉包の基本性質, そして領域の境界曲線の滑らかさと向きについて整理する. 
+
+\begin{character}{閉集合の基本性質}{}
+  次が成り立つ. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item $\varnothing$ と $\mathbb{C}$ は閉集合である. 
+    \item 閉集合の任意の共通部分は閉集合である. 
+    \item 2つの閉集合の合併は閉集合である. 
+  \end{enumerate}
+\end{character}
+
+集合 $E$ の\textbf{内部} $\mathrm{Int}(E)$ とは, $E$ の内点全体の集合である. 
+集合 $E$ の閉包は $\overline{E}\:=\:E\cup\partial E$ であり, 境界は
+\begin{mathpad}
+  \[
+    \partial E \:=\: \overline{E}\setminus \mathrm{Int}(E)
+  \]
+\end{mathpad}
+と書ける. また, $E$ が閉集合であることは $\overline{E}\:=\:E$ と同値である. 
+
+\begin{proposition}{閉包の点の特徴付け}{prop:closure-point}
+  集合 $E\subset\mathbb{C}$ と点 $a\in\mathbb{C}$ に対して, 次は同値である. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item $a\in\overline{E}$ である. 
+    \item 任意の $r>0$ に対して $\Delta(a,r)\cap E\neq\varnothing$ が成り立つ. 
+  \end{enumerate}
+\end{proposition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{img/fig_closure_point.pdf}%chktex 8
+  \caption{閉包の点と近傍の関係}\label{fig:fig_closure_point}
+\end{figure}
+
+\begin{tproof}{命題の証明}{prf:closure-point}
+  \begin{pstep}{(1)$\:\Longrightarrow\:${}(2)}%chktex 36
+    $a\in\overline{E}$ とする. 反対に, ある $r>0$ が存在して $\Delta(a,r)\cap E=\varnothing$ と仮定する. 
+    このとき $\Delta(a,r)$ は $E$ と交わらないので, $a$ は外点であり $a\notin E$ かつ $a\notin\partial E$ が従う. 
+    よって $a\notin\overline{E}\,(=E\cup\partial E)$ となり矛盾である. 
+    したがって任意の $r>0$ で $\Delta(a,r)\cap E\neq\varnothing$ が成り立つ. 
+  \end{pstep}
+  \begin{pstep}{(2)$\:\Longrightarrow\:${}(1)}%chktex 36
+    任意の $r>0$ で $\Delta(a,r)\cap E\neq\varnothing$ とする. 
+    もし $a\notin\overline{E}$ ならば $a\notin E$ かつ $a\notin\partial E$ であり, $a$ は外点である. 
+    外点であればある $r>0$ が存在して $\Delta(a,r)\cap E=\varnothing$ となるはずで, これは仮定に反する. 
+    よって $a\in\overline{E}$ が従う. 
+  \end{pstep}
+  (\blacksquare) %chktex 12
+\end{tproof}
+
+
+
+
 \end{flushleft}
 
 \end{document}

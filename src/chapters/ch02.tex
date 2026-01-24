@@ -1298,7 +1298,7 @@ z_n \:\to\: \alpha \:\iff\: \lvert z_n \:-\: \alpha \rvert \:\to\: 0
 	  \]
 	\end{mathpad}
 	
-	\begin{sidebox}[TBgray]{定義}
+	\begin{definition}{無限級数の収束}{def:series-convergence}
 	  無限級数の収束について次のように定義する. 
 	  \begin{mathpad}
 	    \[
@@ -1306,7 +1306,7 @@ z_n \:\to\: \alpha \:\iff\: \lvert z_n \:-\: \alpha \rvert \:\to\: 0
 	    \]
 	  \end{mathpad}
 	  すなわち右辺の部分和の極限が存在するとき, 無限級数は収束するという. 
-	\end{sidebox}
+	\end{definition}
 	
 	次に絶対収束の概念を取り入れる. 絶対値を取って得られる級数
 	\begin{mathpad}
@@ -1314,12 +1314,11 @@ z_n \:\to\: \alpha \:\iff\: \lvert z_n \:-\: \alpha \rvert \:\to\: 0
 	    \sum_{k=1}^{\infty} \lvert z_k \rvert
 	  \]
 	\end{mathpad}
-	が収束するとき, 級数 $\sum_{k=1}^{\infty} z_k$ は絶対収束すると呼ぶ. 
+	が収束するとき, 級数 $\displaystyle \sum_{k=1}^{\infty} z_k$ は絶対収束すると呼ぶ. 
 	
-	\begin{sidebox}[TBgray]{補足}
-	  \textbf{命題 (無限級数の収束の必要条件)}\par
-	  無限級数 $\sum_{k=1}^{\infty} z_k$ が収束するならば $z_n \:\to\: 0$ が成立する. 
-	\end{sidebox}
+	\begin{proposition}{無限級数の収束の必要条件}{prop:series-necessary}
+	  無限級数 $\displaystyle \sum_{k=1}^{\infty} z_k$ が収束するならば $z_n \:\to\: 0$ が成立する. 
+	\end{proposition}
 	
 	\begin{tproof}{命題の証明}{prf11}
 	  $S_n \:\to\: \alpha$ とする. このとき
@@ -1340,14 +1339,14 @@ z_n \:\to\: \alpha \:\iff\: \lvert z_n \:-\: \alpha \rvert \:\to\: 0
 	\end{tproof}
 	
 	また収束について, 以下のことが成立する. 
-	\begin{sidebox}[TBgray]{補足}
+	\begin{proposition}{無限級数のコーシー条件}{prop:series-cauchy}
 	  次の \textbf{(1)} と \textbf{(2)} は同値である. 
 	  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
 	    leftmargin=3.2em,
 	    labelwidth=2.0em,
 	    labelsep=0.8em,
 	    align=left]
-	    \item 無限級数 $\sum_{k=1}^{\infty} z_k$ が収束する. 
+	    \item 無限級数 $\displaystyle \sum_{k=1}^{\infty} z_k$ が収束する. 
 	    \item 任意の $\varepsilon \:>\: 0$ と任意の $n_1,\:n_2$ に対し, ある $N$ が存在して
 	      \begin{mathpad}
 	        \[
@@ -1357,10 +1356,113 @@ z_n \:\to\: \alpha \:\iff\: \lvert z_n \:-\: \alpha \rvert \:\to\: 0
 	      \end{mathpad}
 	      が成立する. 
 	  \end{enumerate}
-	\end{sidebox}
+	\end{proposition}
+	
+	上の同値性は部分和 $S_n$ を用いて次のように確認できる. 
+	\begin{tproof}{命題の補足説明}{prf-series-cauchy}
+	  \begin{pstep}{(1)$\:\Longrightarrow\:$(2)}%chktex 36
+	    $S_n \:\to\: \alpha$ と仮定する. このとき任意の $\varepsilon \:>\: 0$ に対して, ある $N$ が存在して
+	    \begin{mathpad}
+	      \[
+	        n \:\geq\: N \:\Longrightarrow\: \lvert S_n \:-\: \alpha \rvert \:<\: \dfrac{\:\varepsilon\:}{\:2\:}
+	      \]
+	    \end{mathpad}
+	    が成立する. よって $n_1,\:n_2\:\geq\:N$ に対し
+	    \begin{mathpad}
+	      \[
+	        \bigl\lvert S_{n_1} \:-\: S_{n_2} \bigr\rvert
+	        \:=\: \biggl\lvert \sum_{k=1}^{n_1} z_k \:-\: \sum_{k=1}^{n_2} z_k \biggr\rvert
+	        \:\leq\: \lvert S_{n_1} \:-\: \alpha \rvert \:+\: \lvert S_{n_2} \:-\: \alpha \rvert
+	        \:<\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    を得る. とくに $n_1 < n_2$ なら
+	    \begin{mathpad}
+	      \[
+	        \bigl\lvert S_{n_1} \:-\: S_{n_2} \bigr\rvert
+	        \:=\: \biggl\lvert \sum_{k=n_1+1}^{n_2} z_k \biggr\rvert
+	      \]
+	    \end{mathpad}
+	    となるので, \textbf{(2)} が従う. 
+	  \end{pstep}
+	  \begin{pstep}{(2)$\:\Longrightarrow\:$(1)}%chktex 36
+	    \textbf{(2)} より, 任意の $\varepsilon \:>\: 0$ に対してある $N$ が存在し
+	    \begin{mathpad}
+	      \[
+	        n_1,\:n_2 \:\geq\: N \:\Longrightarrow\: \lvert S_{n_1} \:-\: S_{n_2} \rvert \:<\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    が成立する. これは $\{S_n\}$ がコーシー列であることを意味するので, 
+	    コーシーの判定法よりある $\alpha \:\in\: \mathbb{C}$ が存在して
+	    \begin{mathpad}
+	      \[
+	        \lim_{n\to\infty} S_n \:=\: \alpha
+	      \]
+	    \end{mathpad}
+	    が成立する. すなわち任意の $\varepsilon \:>\: 0$ に対し, ある $N'$ が存在して
+	    \begin{mathpad}
+	      \[
+	        n \:\geq\: N' \:\Longrightarrow\: \lvert S_n \:-\: \alpha \rvert \:<\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    となる. よって
+	    \begin{mathpad}
+	      \[
+	        \displaystyle \sum_{k=1}^{\infty} z_k \:\coloneq\: \lim_{n\to\infty} S_n \:=\: \alpha
+	      \]
+	    \end{mathpad}
+	    であり, 無限級数 $\displaystyle\sum_{k=1}^{\infty} z_k$ は収束する. 
+	  \end{pstep}
+	  (\blacksquare) %chktex 12
+	\end{tproof}
+	
+	次に, 上の命題と必要条件に対応する例題を挙げる. 
+	\begin{exproblem}{無限級数の収束判定の例}{expr-series-1}
+	  次の級数の収束・発散を判定せよ. 
+	  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+	    leftmargin=3.2em,
+	    labelwidth=2.0em,
+	    labelsep=0.8em,
+	    align=left]
+	    \item $\displaystyle \sum_{n=1}^{\infty} (-1){}^n$
+	    \item $\displaystyle \sum_{n=1}^{\infty} a^{n}\quad (\lvert a \rvert < 1)$
+	  \end{enumerate}
+	  \tcblower{}
+	  \textbf{【解答】}\par
+	  \begin{pstep}{1}
+	    必要条件 (命題2.4) より, 収束するなら ${(-1)}^n \:\to\: 0$ が必要である. 
+	    しかし ${(-1)}^n$ は $1$ と $-1$ を交互にとるため極限をもたない. 
+	    よってこの級数は発散する. 
+	  \end{pstep}
+	  \begin{pstep}{2}
+	    $n_1 < n_2$ とする. 命題2.4の $(2)$より, 
+	    \begin{mathpad}
+	      \[
+	        \sum_{k=n_1+1}^{n_2} a^k
+	        \:=\: a^{n_1+1} \cdot \dfrac{1 - a^{\,n_2-n_1}}{1-a}
+	      \]
+	    \end{mathpad}
+	    よって
+	    \begin{mathpad}
+	      \[
+	        \biggl\lvert \sum_{k=n_1+1}^{n_2} a^k \biggr\rvert
+	        \:\leq\: \lvert a \rvert^{n_1+1}\cdot \dfrac{1 + \lvert a \rvert^{\,n_2-n_1}}{1-\lvert a \rvert}
+	        \:\leq\: \dfrac{2\lvert a \rvert^{n_1+1}}{1-\lvert a \rvert}
+	      \]
+	    \end{mathpad}
+	    となる. 右辺は $n_1\:\to\:\infty$ で $0$ に収束するので, 
+	    任意の $\varepsilon \:>\: 0$ に対して十分大きな $N$ をとれば
+	    \begin{mathpad}
+	      \[
+	        n_1,\:n_2 \:\geq\: N \:\Longrightarrow\: \biggl\lvert \sum_{k=n_1+1}^{n_2} a^k \biggr\rvert \:<\: \varepsilon
+	      \]
+	    \end{mathpad}
+	    が成立する. よって命題2.8より収束する. 
+	  \end{pstep}
+	\end{exproblem}
 	
 	
-	
+
 
 
 \end{flushleft}

@@ -1,0 +1,474 @@
+\documentclass[../main.tex]{subfiles}
+
+% =============================================
+% 【自動設定】単体ビルド時の章番号補正
+% ファイル名 (chXX) の数字を読み取り、自動でセクション番号を調整します
+% main.tex からビルドする時は無視されます
+% =============================================
+\directlua{
+  local s, e, num = string.find(tex.jobname, "ch(" .. string.char(37) .. "d+)") %chktex 36 %chktex 18 %chktex 12 %chktex 26 %chktex 8
+  if num then
+    tex.print(string.char(92) .. "setcounter{section}{" .. (tonumber(num) - 1) .. "}")%chktex 36 %chktex 18 %chktex 12 %chktex 26 %chktex 8
+  end
+}
+
+\begin{document}
+\begin{flushleft}
+
+\section{複素関数と微分可能性}
+
+\subsection{曲線と境界の向き}
+集合の話に続いて, 複素平面上の曲線を導入する. 
+
+\begin{definition}{曲線}{def:curve}
+  区間 $[a,b]\subset\mathbb{R}$ 上の連続写像
+  \begin{mathpad}
+    \[
+      \gamma\colon[a,b]\to\mathbb{C}
+    \]
+  \end{mathpad}
+  を曲線とよぶ. $p\:=\:\gamma(a)$ を始点, $q\:=\:\gamma(b)$ を終点という. 
+\end{definition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig_curve_basic.pdf}%chktex 8
+  \caption{曲線の例}\label{fig:fig_curve_basic}
+\end{figure}
+
+曲線 $\gamma(t)$ を $\gamma(t)\:=\:x(t)+iy(t)$ と書くと, $x(t),\:y(t)$ は実数値関数である. 
+
+\begin{definition}{滑らかな曲線}{def:smooth-curve}
+  曲線 $\gamma(t)\:=\:x(t)+iy(t)$ が滑らかであるとは, $x(t),\:y(t)$ が連続微分可能で
+  \begin{mathpad}
+    \[
+      \gamma'(t)\:=\:x'(t)+iy'(t)\neq 0
+    \]
+  \end{mathpad}
+  が $a\leq t\leq b$ で成り立つことをいう. 
+  また有限個の区間に分けて, 各区間で滑らかな曲線になっているとき, $\gamma$ を区分的に滑らかな曲線という. 
+\end{definition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{img/fig_smooth_curve.pdf}%chktex 8
+  \caption{滑らかな曲線と接ベクトル}\label{fig:fig_smooth_curve}
+\end{figure}
+
+\begin{definition}{単純曲線と閉曲線}{def:simple-curve}
+  曲線 $\gamma$ が単純であるとは, $t_1\neq t_2$ なら $\gamma(t_1)\neq \gamma(t_2)$ が成り立つことをいう. 
+  さらに $\gamma(a)=\gamma(b)$ を満たすとき, $\gamma$ を閉曲線という. 
+  閉曲線であり, $a<t_1<t_2<b$ の範囲では単純である曲線を単純閉曲線という. 
+\end{definition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{img/fig_simple_closed.pdf}%chktex 8
+  \caption{単純曲線と閉曲線の例}\label{fig:fig_simple_closed}
+\end{figure}
+
+\begin{definition}{境界の正の向き}{def:positive-orientation}
+  領域 $D\subset\mathbb{C}$ の境界が区分的に滑らかな閉曲線 $\gamma$ で与えられるとき, 
+  曲線を進む向きに対して領域 $D$ が常に左側に来る向きを\textbf{正の向き}という. 
+\end{definition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{img/fig_positive_orientation.pdf}%chktex 8
+  \caption{正の向きのイメージ}\label{fig:fig_positive_orientation}
+\end{figure}
+
+\begin{example}{基本的な曲線}{ex:basic-curves}
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item 線分 $[p,q]$ は
+      \begin{mathpad}
+        \[
+          \gamma(t)\:=\:(1-t)p+tq\quad (0\leq t\leq 1)
+        \]
+      \end{mathpad}
+      で表される. 
+    \item 円周 $|z-a|=R$ は
+      \begin{mathpad}
+        \[
+          \gamma(t)\:=\:a+Re^{it}\quad (0\leq t\leq 2\pi)
+        \]
+      \end{mathpad}
+      で表される. 
+    \item 点列 $p_1,\dots,p_n$ を結ぶ折れ線は, 各区間で線分表示した曲線である. 
+  \end{enumerate}
+\end{example}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{img/fig_curves_orientation.pdf}%chktex 8
+  \caption{曲線の例と正の向き}\label{fig:fig_curves_orientation}
+\end{figure}
+
+\subsection{複素関数}
+集合 $E \subset \mathbb{C}$ 上で定義された写像 $f$ が, 各 $z\in E$ に対して複素数 $f(z)$ を対応させるとき, $f$ を複素関数とよぶ. すなわち
+\begin{mathpad}
+  \[
+    f\colon E \to \mathbb{C}
+  \]
+\end{mathpad}
+と書く. 値域が集合 $E'\subset \mathbb{C}$ に含まれることを強調するときは
+\begin{mathpad}
+  \[
+    f\colon E \to E'
+  \]
+\end{mathpad}
+と書く. また, 集合 $A\subset E$ に対して
+\begin{mathpad}
+  \[
+    f(A) \coloneq \{ f(a) \mid a \in A \}
+  \]
+\end{mathpad}
+を $A$ の像とよぶ. 
+
+\begin{definition}{複素関数}{def:complex-function}
+  集合 $E\subset \mathbb{C}$ に対して, 各 $z\in E$ に複素数 $f(z)$ を対応させる写像
+  \begin{mathpad}
+    \[
+      f\colon E \to \mathbb{C}
+    \]
+  \end{mathpad}
+  を複素関数とよぶ. 
+\end{definition}
+
+\begin{example}{2乗関数}{ex:square-map-1}
+  複素関数 $f(z)\:=\:z^2$ を考える. 具体的には
+  \begin{mathpad}
+    \[
+      f(0)\:=\:0,\quad f(1)\:=\:1,\quad f(i)\:=\:-1,\quad f(1+i)\:=\:2i
+    \]
+  \end{mathpad}
+  である. これらの対応を図3.1に示す. 
+\end{example}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{img/fig3-1.pdf}%chktex 8
+  \caption{$f(z)=z^2$ による点の像}\label{fig:fig3-1}
+\end{figure}
+
+次に, $z\:=\:x\:+\:iy$ とおくと
+\begin{mathpad}
+  \[
+    f(z)\:=\:z^2\:=\:(x^2-y^2)\:+\:2ixy
+  \]
+\end{mathpad}
+である. したがって $f(z)\:=\:u\:+\:iv$ と書けば
+\begin{mathpad}
+  \[
+    u\:=\:x^2-y^2,\quad v\:=\:2xy
+  \]
+\end{mathpad}
+が成り立つ. ここで $x\:=\:a$ を固定すると
+\begin{mathpad}
+  \[
+    u\:=\:a^2-y^2,\quad v\:=\:2ay
+  \]
+\end{mathpad}
+より
+\begin{mathpad}
+  \[
+    u\:=\:a^2-\dfrac{v^2}{4a^2}\quad (a\neq 0)
+  \]
+\end{mathpad}
+となり, これは $u$ 軸方向に開く放物線である. 同様に $y\:=\:b$ を固定すれば
+\begin{mathpad}
+  \[
+    u\:=\:x^2-b^2,\quad v\:=\:2bx
+  \]
+\end{mathpad}
+より
+\begin{mathpad}
+  \[
+    u\:=\:\dfrac{v^2}{4b^2}-b^2\quad (b\neq 0)
+  \]
+\end{mathpad}
+が得られる. すなわち, 実軸・虚軸に平行な直線は放物線へ写る. 図3.2に対応の例を示す. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{img/fig3-2.pdf}%chktex 8
+  \caption{$f(z)=z^2$ による直線の像}\label{fig:fig3-2}
+\end{figure}
+
+さらに, 円 $\lvert z-1 \rvert\:=\:1$ の像を調べる. $z\:=\:1+e^{it}$ とおくと
+\begin{mathpad}
+  \[
+    f(z)\:=\:\bigl(1+e^{it}\bigr){}^2\:=\:1+2e^{it}+e^{2it}
+  \]
+\end{mathpad}
+である. $f(z)\:=\:u+iv$ と書けば
+\begin{mathpad}
+  \[
+    u\:=\:1+2\cos t+\cos(2t),\quad v\:=\:2\sin t+\sin(2t)
+  \]
+\end{mathpad}
+となり, $t\in[0,2\pi]$ のときの軌跡は図3.3のような心臓形 (カージオイド) の曲線となる. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{img/fig3-3.pdf}%chktex 8
+  \caption{$f(z)=z^2$ による円の像}\label{fig:fig3-3}
+\end{figure}
+
+\subsection{関数の極限}
+複素関数の極限は数列の極限と同様に定義する. 
+\begin{definition}{複素関数の極限}{def:complex-limit}
+  集合 $E\subset \mathbb{C}$ 上の複素関数 $f$ と点 $a\in E$ をとる. $\alpha\in\mathbb{C}$ に対して
+  \begin{mathpad}
+    \[
+      0<\lvert z-a \rvert<\delta \:\Longrightarrow\: \lvert f(z)-\alpha \rvert<\varepsilon
+    \]
+  \end{mathpad}
+  を満たす $\delta>0$ が任意の $\varepsilon>0$ に対して存在するとき,
+  \begin{mathpad}
+    \[
+      \lim_{z\to a} f(z)\:=\:\alpha
+    \]
+  \end{mathpad}
+  と書き, $z\to a$ のとき $f(z)$ は $\alpha$ に収束するという. 
+\end{definition}
+
+この定義の重要点は $z$ の近づき方に制限がないことである. すなわち, 直線上から近づいても, 曲線上から近づいても, 同じ $\alpha$ が得られる必要がある. 近づき方の例を図3.4に示す. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{img/fig3-4.pdf}%chktex 8
+  \caption{点 $a$ へのさまざまな近づき方}\label{fig:fig3-4}
+\end{figure}
+
+\begin{exproblem}{2乗関数の極限}{expr-limit-1}
+  $f(z)\:=\:z^2$ に対し
+  \begin{mathpad}
+    \[
+      \lim_{z\to a} f(z)\:=\:a^2
+    \]
+  \end{mathpad}
+  が成立することを定義に基づいて示せ. 
+  \tcblower{}
+  \textbf{【解答】}\par
+  任意の $\varepsilon>0$ をとる. $\lvert z-a \rvert<1$ を仮定すると
+  \begin{mathpad}
+    \[
+      \lvert z+a \rvert\leq \lvert z-a \rvert+2\lvert a \rvert<1+2\lvert a \rvert
+    \]
+  \end{mathpad}
+  なので
+  \begin{mathpad}
+    \[
+      \lvert z^2-a^2 \rvert\:=\:\lvert z-a \rvert\,\lvert z+a \rvert
+      \leq (1+2\lvert a \rvert)\lvert z-a \rvert
+    \]
+  \end{mathpad}
+  が成り立つ. よって
+  \begin{mathpad}
+    \[
+      \delta\:=\:\min\Bigl\{1,\dfrac{\varepsilon}{1+2\lvert a \rvert}\Bigr\}
+    \]
+  \end{mathpad}
+  とおけば, $0<\lvert z-a \rvert<\delta$ から $\lvert z^2-a^2 \rvert<\varepsilon$ が従う. 
+\end{exproblem}
+
+\begin{exproblem}{べき関数の極限}{expr-limit-2}
+  任意の $n\in\mathbb{N}$ に対して
+  \begin{mathpad}
+    \[
+      \lim_{z\to a} z^n\:=\:a^n
+    \]
+  \end{mathpad}
+  が成立することを示せ. 
+  \tcblower{}
+  \textbf{【解答】}\par
+  恒等式
+  \begin{mathpad}
+    \[
+      z^n-a^n\:=\:(z-a)\sum_{k=0}^{n-1} z^{n-1-k}a^k
+    \]
+  \end{mathpad}
+  を用いる. $\lvert z-a \rvert<1$ のとき $\lvert z \rvert\leq \lvert a \rvert+1$ であるから
+  \begin{mathpad}
+    \[
+      \bigl\lvert z^n-a^n \bigr\rvert
+      \leq \lvert z-a \rvert\sum_{k=0}^{n-1} \lvert z \rvert^{n-1-k}\lvert a \rvert^k
+      \leq n\,\bigl(\lvert a \rvert+1\bigr){}^{n-1}\lvert z-a \rvert
+    \]
+  \end{mathpad}
+  が成り立つ. したがって
+  \begin{mathpad}
+    \[
+      \delta\:=\:\min\Bigl\{1,\dfrac{\varepsilon}{n\bigl(\lvert a \rvert+1\bigr){}^{n-1}}\Bigr\}
+    \]
+  \end{mathpad}
+  とおけば $\lvert z^n-a^n \rvert<\varepsilon$ が従う. 
+\end{exproblem}
+
+\subsection{連続関数}
+複素関数の連続性は極限によって定義される. 
+\begin{definition}{連続性}{def:continuity}
+  集合 $E\subset \mathbb{C}$ 上の複素関数 $f$ が点 $a\in E$ において
+  \begin{mathpad}
+    \[
+      \lim_{z\to a} f(z)\:=\:f(a)
+    \]
+  \end{mathpad}
+  を満たすとき, $f$ は $a$ において連続であるという. $E$ の各点で連続なら $f$ は $E$ 上連続であるという. 
+\end{definition}
+
+半径 $r>0$ に対し, 開円板を
+\begin{mathpad}
+  \[
+    \Delta(a,r)\coloneq \{ z\in\mathbb{C}\mid \lvert z-a \rvert<r \}
+  \]
+\end{mathpad}
+で定義する. すると連続性は次のように書き換えられる. 
+
+\begin{proposition}{開円板を用いた連続性の言い換え}{prop:continuity-disk}
+  次の \textbf{(1)} と \textbf{(2)} は同値である. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item 複素関数 $f$ は $a$ において連続である. 
+    \item 任意の $\varepsilon>0$ に対してある $\delta>0$ が存在し
+      \begin{mathpad}
+        \[
+          f\bigl(\Delta(a,\delta)\bigr)\subset \Delta\bigl(f(a),\varepsilon\bigr)
+        \]
+      \end{mathpad}
+      が成立する. 
+  \end{enumerate}
+\end{proposition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{img/fig_continuity_disk.pdf}%chktex 8
+  \caption{連続性の開円板表示}\label{fig:fig_continuity_disk}
+\end{figure}
+
+\begin{tproof}{命題の証明}{prf:continuity-disk}
+  \begin{pstep}{(1)$\Longrightarrow$(2)} %chktex 36
+    $f$ が $a$ において連続であるとする. すると任意の $\varepsilon>0$ に対してある $\delta>0$ が存在し
+    \begin{mathpad}
+      \[
+        \lvert z-a \rvert<\delta \:\Longrightarrow\: \lvert f(z)-f(a) \rvert<\varepsilon
+      \]
+    \end{mathpad}
+    が成立する. これは $z\in\Delta(a,\delta)$ なら $f(z)\in\Delta(f(a),\varepsilon)$ となることを意味する. よって
+    \begin{mathpad}
+      \[
+        f\bigl(\Delta(a,\delta)\bigr)\subset \Delta\bigl(f(a),\varepsilon\bigr)
+      \]
+    \end{mathpad}
+    が従う. 
+  \end{pstep}
+  \begin{pstep}{(2)$\Longleftarrow$(1)}%chktex 36
+    逆に, 任意の $\varepsilon>0$ に対しある $\delta>0$ が存在して
+    \begin{mathpad}
+      \[
+        f\bigl(\Delta(a,\delta)\bigr)\subset \Delta\bigl(f(a),\varepsilon\bigr)
+      \]
+    \end{mathpad}
+    が成立すると仮定する. すると $\lvert z-a \rvert<\delta$ なら $z\in\Delta(a,\delta)$ であるから
+    \begin{mathpad}
+      \[
+        \lvert f(z)-f(a) \rvert<\varepsilon
+      \]
+    \end{mathpad}
+    が成立する. したがって $\displaystyle\lim_{z\to a} f(z)\:=\:f(a)$ が従う. 
+  \end{pstep}
+  (\blacksquare) %chktex 12
+\end{tproof}
+
+\begin{proposition}{連続関数の四則演算}{prop:continuity-algebra}
+  集合 $E$ 上で定義された複素関数 $f,\:g$ が点 $a\in E$ で連続とする. このとき次が成り立つ. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item $f+g$ は $a$ で連続である. 
+    \item $f-g$ は $a$ で連続である. 
+    \item $f\cdot g$ は $a$ で連続である. 
+    \item $g(a)\neq 0$ のとき $\dfrac{\:f\:}{\:g\:}$ は $a$ で連続である. 
+  \end{enumerate}
+\end{proposition}
+
+\begin{tproof}{命題の証明}{prf:continuity-algebra}
+  $\displaystyle\lim_{z\to a} f(z)\:=\:f(a)$, $\displaystyle\lim_{z\to a} g(z)\:=\:g(a)$ を用いる. 極限の計算則より
+  \begin{mathpad}
+    \[
+      \displaystyle\lim_{z\to a} (f(z)\pm g(z))\:=\:f(a)\pm g(a),\quad
+      \displaystyle\lim_{z\to a} f(z)g(z)\:=\:f(a)g(a)
+    \]
+  \end{mathpad}
+  が成り立つ. さらに $g(a)\neq 0$ ならば
+  \begin{mathpad}
+    \[
+      \displaystyle\lim_{z\to a} \dfrac{f(z)}{g(z)}\:=\:\dfrac{f(a)}{g(a)}
+    \]
+  \end{mathpad}
+  が従うので, いずれも連続性の定義を満たす. 
+  (\blacksquare) %chktex 12
+\end{tproof}
+
+\subsection{多項式と有理関数}
+複素数 $a_0,a_1,\dots,a_n$ を用いて
+\begin{mathpad}
+  \[
+    P(z)\:=\:a_0+a_1 z+\cdots+a_n z^n
+  \]
+\end{mathpad}
+と表される複素関数を多項式という. $a_n\neq 0$ のとき $n$ を次数とよぶ. また $Q(z)\neq 0$ を満たす多項式 $Q$ に対し
+\begin{mathpad}
+  \[
+    R(z)\:=\:\dfrac{P(z)}{Q(z)}
+  \]
+\end{mathpad}
+と表される複素関数を有理関数という. 
+
+\begin{proposition}{多項式と有理関数の連続性}{prop:poly-rational-cont}
+  次の \textbf{(1)} と \textbf{(2)} が成り立つ. 
+  \begin{enumerate}[itemsep=6pt, topsep=6pt,label=(\arabic*), %chktex 36
+    leftmargin=3.2em,
+    labelwidth=2.0em,
+    labelsep=0.8em,
+    align=left]
+    \item 多項式は $\mathbb{C}$ 全体で連続である. 
+    \item 有理関数 $R(z)\:=\:P(z)/Q(z)$ は, $Q(z)\neq 0$ が成り立つ点で連続である. 
+  \end{enumerate}
+\end{proposition}
+
+\begin{tproof}{命題の証明}{prf:poly-rational-cont}
+  \begin{pstep}{1}
+    $z\mapsto z^k$ は前節の例題より連続である. よって連続関数の四則演算を繰り返せば, 多項式 $P(z)$ は $\mathbb{C}$ 全体で連続となる. 
+  \end{pstep}
+  \begin{pstep}{2}
+    $Q(a)\neq 0$ を満たす点 $a$ をとると, $1/Q(z)$ は $a$ で連続である. よって $R(z)\:=\:P(z)\cdot (1/Q(z))$ も $a$ で連続である. 
+  \end{pstep}
+  (\blacksquare) %chktex 12
+\end{tproof}
+
+\begin{exproblem}{有理関数の連続性}{expr-rational-1}
+  有理関数
+  \begin{mathpad}
+    \[
+      R(z)\:=\:\dfrac{z^2+1}{z-1}
+    \]
+  \end{mathpad}
+  の連続性を判定せよ. 
+  \tcblower{}
+  \textbf{【解答】}\par
+  分母が $0$ になるのは $z\:=\:1$ のみである. よって $R$ は「複素数全体の集合から $1$ だけを除いた集合」上で連続であり, $z\:=\:1$ では連続でない. 
+\end{exproblem}
+
+\end{flushleft}
+\end{document}
