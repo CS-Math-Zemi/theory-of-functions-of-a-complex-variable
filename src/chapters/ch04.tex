@@ -51,7 +51,7 @@
 
 \begin{figure}[H]
   \centering
-\includegraphics[width=0.9\linewidth]{img/fig4-0.pdf}%chktex 8
+\includegraphics[width=0.6\linewidth]{img/fig4-0.pdf}%chktex 8
   \caption{偏導関数と一次近似の幾何的意味}\label{fig:fig4-0}
 \end{figure}
 
@@ -84,10 +84,61 @@
   \begin{mathpad}
     \[
       f(x+\Delta x,y+\Delta y)-f(x,y)\:=\:L(\Delta x,\Delta y)+o(r)
-    \]
+  \]
   \end{mathpad}
   が $r\:=\:\sqrt{(\Delta x){}^2+(\Delta y){}^2}\to 0$ で成り立つとき, $f$ は点 $(x,y)$ で全微分可能という. 
 \end{definition}
+
+ここでの $L$ は, $(\Delta x,\Delta y)$ という微小な入力の変化を
+「ほぼ線形に」出力へ移す近似式である. つまり
+\begin{mathpad}
+  \[
+    f(x+\Delta x,y+\Delta y)-f(x,y)\approx L(\Delta x,\Delta y)
+  \]
+\end{mathpad}
+という意味で, $L$ は $f$ の一次近似を表す. 
+言い換えると, $\Delta x,\Delta y$ が微小であるため,
+三次元空間で点 $(x,y,u)$ や $(x,y,v)$ の動きを見ても変化はごく小さい. 
+その小さな変化は, 点の近くでは直線的な移動として近似できる, という理解でよい. 
+また $o(r)$ は「$r$ に比べて無視できる小ささ」を表す記号で, $r\to 0$ のとき
+\begin{mathpad}
+  \[
+    \frac{o(r)}{r}\to 0
+  \]
+\end{mathpad}
+が成り立つ. したがって $f$ の増分は
+「線形項 $L(\Delta x,\Delta y)$ + それより小さい誤差」で表される. 
+
+この定義は, $f$ を「最もよく近似する線形変換」が存在することを意味する. 
+線形写像 $L$ は行列で表せるので
+\begin{mathpad}
+  \[
+    L(\Delta x,\Delta y)
+    =
+    \begin{pmatrix}
+      a & b\\
+      c & d
+    \end{pmatrix}
+    \begin{pmatrix}
+      \Delta x\\
+      \Delta y
+    \end{pmatrix}
+  \]
+\end{mathpad}
+の形になる. 重要なのは, どの方向から近づけても同じ $L$ が使えることだ. 
+例えば $(\Delta x,\Delta y)=r(\cos\theta,\sin\theta)$ と置くと, 角度 $\theta$ を変えても
+同じ $L$ で近似できることが条件になる. 
+偏導関数が存在していても, 方向 $\theta$ によって
+\begin{mathpad}
+  \[
+    \frac{f(x+\Delta x,y+\Delta y)-f(x,y)}{r}
+  \]
+\end{mathpad}
+の極限が変わるようなら, 単一の $L$ では説明できない. これが「方向依存のずれ」であり,
+このずれがあると全微分可能とは言えない. 
+一方, 偏導関数が連続であればこのずれが消えていき,
+どの方向でも同じヤコビ行列  $L$で近似できるようになる. 
+
 
 \begin{proposition}{全微分可能性の十分条件}{prop:total-diff}
   $u,v$ が $D$ 上で $C^1$ 級ならば, $f$ は $D$ 上で全微分可能である. 
@@ -95,25 +146,40 @@
 
 \begin{tproof}{命題の証明}{prf:total-diff}
   \begin{pstep}{1}
-    $u$ が $C^1$ 級であるとき, ある連続な関数 $\varepsilon_u(\Delta x,\Delta y)$ が存在して
+    $u,v$ が $C^1$ 級であるということは, $u_x,u_y,v_x,v_y$ が連続であることを意味する. 
+    連続な偏導関数をもつ関数は, 点 $(x,y)$ の近くで
     \begin{mathpad}
       \[
-        u(x+\Delta x,y+\Delta y)=u(x,y)+u_x\Delta x+u_y\Delta y+\varepsilon_u(\Delta x,\Delta y)\,r
+        u(x+\Delta x,y+\Delta y)
+        =
+        u(x,y)+u_x\Delta x+u_y\Delta y+\varepsilon_u(\Delta x,\Delta y)\,r
       \]
     \end{mathpad}
-    が成立し, $r\to 0$ で $\varepsilon_u\to 0$ となる. $v$ についても同様に
+    の形に書ける. ここで $r=\sqrt{(\Delta x){}^2+(\Delta y){}^2}$ であり,
+    $\varepsilon_u(\Delta x,\Delta y)$ は $r\to 0$ のとき $0$ に近づく連続関数である. 
+    つまり, $u$ の増分は「一次の項 $u_x\Delta x+u_y\Delta y$」と
+    「それより小さい誤差項 $\varepsilon_u\,r$」に分けられる. 
+    ここで $\varepsilon_u\,r=o(r)$ というのは,
+    例えば $r$ を半分にすると誤差項はそれ以上の割合で小さくなり,
+    $r$ に比べて無視できる大きさになることを意味する. 
+    同様に $v$ についても
     \begin{mathpad}
       \[
-        v(x+\Delta x,y+\Delta y)=v(x,y)+v_x\Delta x+v_y\Delta y+\varepsilon_v(\Delta x,\Delta y)\,r
+        v(x+\Delta x,y+\Delta y)
+        =
+        v(x,y)+v_x\Delta x+v_y\Delta y+\varepsilon_v(\Delta x,\Delta y)\,r
       \]
     \end{mathpad}
-    が成立する. 
+    が成り立ち, $\varepsilon_v\to 0$ となる. 
   \end{pstep}
   \begin{pstep}{2}
-    以上より
+    以上の2つの式をまとめると
     \begin{mathpad}
       \[
-        f(x+\Delta x,y+\Delta y)-f(x,y)
+        \begin{pmatrix}
+          u(x+\Delta x,y+\Delta y)-u(x,y)\\
+          v(x+\Delta x,y+\Delta y)-v(x,y)
+        \end{pmatrix}
         =
         \begin{pmatrix}
           u_x & u_y\\
@@ -131,10 +197,29 @@
         r
       \]
     \end{mathpad}
-    となるので, 右辺の第2項が $o(r)$ であることが分かる. よって $f$ は全微分可能である. 
+    となる. 左辺は $f(x+\Delta x,y+\Delta y)-f(x,y)$ そのものであり,
+    右辺の第1項はヤコビ行列による線形近似, 第2項はその誤差である. 
+    $\varepsilon_u,\varepsilon_v\to 0$ なので, 誤差項全体は $o(r)$ になる. 
+    したがって $r$ が十分小さければ, 右辺の主な寄与は線形項であり,
+    誤差はそのオーダーよりもさらに小さい. 
+    よって定義にある形
+    \begin{mathpad}
+      \[
+        f(x+\Delta x,y+\Delta y)-f(x,y)
+        =
+        L(\Delta x,\Delta y)+o(r)
+      \]
+    \end{mathpad}
+    が成立し, $f$ は全微分可能である. 
   \end{pstep}
   (\blacksquare) %chktex 12
 \end{tproof}
+
+図\ref{fig:fig4-1}は, 点 $(x,y)$ の小さな近傍から出るいくつかの微小ベクトルが,
+一次近似 $L$ によって $f(x,y)$ の近くでどのように移るかを示している. 
+左図の小円は「近傍」を表し, そこから出る微小な増分が
+右図では線形写像によって変形された増分として描かれている. 
+つまり, 全微分可能なら「近傍の動き全体」が同じ線形写像で説明できるというイメージである. 
 
 \begin{figure}[H]
   \centering
@@ -143,17 +228,33 @@
 \end{figure}
 
 \subsection{ヤコビ行列と微分の意味}
-全微分可能なとき, 行列
+まず $f(x,y)=(u(x,y),v(x,y))$ とし, 曲線 $\gamma(t)=(x(t),y(t))$ との合成を
+\begin{mathpad}
+  \[
+    f(\gamma(t))=(u(x(t),y(t)),\,v(x(t),y(t)))
+  \]
+\end{mathpad}
+と書く. 以下では $u\circ\gamma$, $v\circ\gamma$ を $t$ の関数とみなす. 
+全微分可能なとき, 偏導関数を用いて
+\begin{mathpad}
+  \[
+    \begin{pmatrix}
+      \pdv{u}{x} & \pdv{u}{y}\\
+      \pdv{v}{x} & \pdv{v}{y}
+    \end{pmatrix}
+  \]
+\end{mathpad}
+と表される行列が現れるので, これを
 \begin{mathpad}
   \[
     \mathrm{Jac}_f(x,y)\:=\:
     \begin{pmatrix}
-      u_x & u_y\\
-      v_x & v_y
+      \pdv{u}{x} & \pdv{u}{y}\\
+      \pdv{v}{x} & \pdv{v}{y}
     \end{pmatrix}
   \]
 \end{mathpad}
-を $f$ のヤコビ行列とよぶ. このとき
+と書いて $f$ のヤコビ行列とよぶ. このとき
 \begin{mathpad}
   \[
     f(x+\Delta x,y+\Delta y)-f(x,y)\approx \mathrm{Jac}_f(x,y)
@@ -165,21 +266,85 @@
 \end{mathpad}
 となり, $f$ は微小なベクトルをほぼ線形変換として写す. 
 
+ここで曲線 $\gamma(t)$ を通じて $f\circ\gamma$ を考えると, 合成関数の微分は
+$\mathbb{R}^2$ の連鎖律に従う. 具体的には
+\begin{mathpad}
+  \[
+    \dfrac{\:d\:}{\:dt\:}u(x(t),y(t))
+    =
+    \pdv{u}{x}\dfrac{\:dx\:}{\:dt\:}+\pdv{u}{y}\dfrac{\:dy\:}{\:dt\:},\quad
+    \dfrac{\:d\:}{\:dt\:}v(x(t),y(t))
+    =
+    \pdv{v}{x}\dfrac{\:dx\:}{\:dt\:}+\pdv{v}{y}\dfrac{\:dy\:}{\:dt\:}
+  \]
+\end{mathpad}
+と書けるので, 2式をまとめると
+\begin{mathpad}
+  \[
+    \begin{pmatrix}
+      \dfrac{\:d\:}{\:dt\:}u(x(t),y(t))\\[6pt]
+      \dfrac{\:d\:}{\:dt\:}v(x(t),y(t))
+    \end{pmatrix}\Bigm|_{t=t_0}
+    =
+    \begin{pmatrix}
+      \dfrac{\:\partial u\:}{\:\partial x\:} & \dfrac{\:\partial u\:}{\:\partial y\:}\\
+      \dfrac{\:\partial v\:}{\:\partial x\:} & \dfrac{\:\partial v\:}{\:\partial y\:}
+    \end{pmatrix}\Bigm|_{(x,y)=(x(t_0),y(t_0))}
+    \begin{pmatrix}
+      \dfrac{\:dx\:}{\:dt\:}(t_0)\\[6pt]
+      \dfrac{\:dy\:}{\:dt\:}(t_0)
+    \end{pmatrix}
+  \]
+\end{mathpad}
+と表せる. ここで左辺を $\dfrac{\:d\:}{\:dt\:}f(\gamma(t))\bigm|_{t=t_0}$ とみなせば,
+右辺の行列はヤコビ行列であるから
+\begin{mathpad}
+  \[
+    \dfrac{\:d\:}{\:dt\:}f(\gamma(t))\Bigm|_{t=t_0}
+    =
+    \mathrm{Jac}_f(x(t_0),y(t_0))
+    \begin{pmatrix}
+      \dfrac{\:dx\:}{\:dt\:}(t_0)\\[6pt]
+      \dfrac{\:dy\:}{\:dt\:}(t_0)
+    \end{pmatrix}
+  \]
+\end{mathpad}
+と書ける. よって $f$ の一次近似は $\gamma(t_0)$ での接ベクトルを入力として評価される. 
+したがって, 全微分可能な $f$ に対しては接ベクトルをヤコビ行列で線形に写す
+操作として理解できる. 
+
+ここで $\gamma^{\prime}(t_0)=\bigl(\dfrac{\:dx\:}{\:dt\:}(t_0),\dfrac{\:dy\:}{\:dt\:}(t_0)\bigr)$ は
+曲線 $\gamma$ の接ベクトルであり, 方向ベクトル $\bm{v}$ に沿う方向微分の役割を担う. 
+全微分可能性は, 任意の方向 $\bm{v}$ に対して
+\begin{mathpad}
+  \[
+    \mathrm{Jac}_f(x,y)\,\bm{v}
+  \]
+\end{mathpad}
+がその方向の一次変化を与えることを意味する. 
+したがって, 曲線に沿う微分は $\bm{v}=\gamma^{\prime}(t_0)$ を代入した場合に相当し,
+命題は「接ベクトルの像がヤコビ行列で決まる」ことを明示している. 
+
 \begin{proposition}{接ベクトルの対応}{prop:tangent-map}
-  曲線 $\gamma(t)=(x(t),y(t))$ が $t_0$ で滑らかで, $f$ が点 $(x(t_0),y(t_0))$ で全微分可能ならば
+  曲線 $\gamma(t)=(x(t),\:y(t))$ が $t_0$ で滑らかで, $f$ が点 $(x(t_0),\:y(t_0))$ で全微分可能ならば
   \begin{mathpad}
     \[
-      \dv{}{t}f(\gamma(t))\Bigm|_{t=t_0}
+      \dfrac{\:d\:}{\:dt\:}f(\gamma(t))\Bigm|_{t=t_0}
       =
       \mathrm{Jac}_f(x(t_0),y(t_0))
       \begin{pmatrix}
-        x'(t_0)\\
-        y'(t_0)
+        \dfrac{\:dx\:}{\:dt\:}(t_0)\\[6pt]
+        \dfrac{\:dy\:}{\:dt\:}(t_0)
       \end{pmatrix}
     \]
   \end{mathpad}
   が成り立つ. すなわち接ベクトルはヤコビ行列で写る. 
 \end{proposition}
+
+図\ref{fig:fig4-2}では, 左図の曲線 $\gamma$ 上の点 $\gamma(t_0)$ における接ベクトル
+$\gamma^{\prime}(t_0)$ が, 右図の像曲線 $f\circ\gamma$ 上の点 $f(\gamma(t_0))$ において
+$\mathrm{Jac}_f\,\gamma^{\prime}(t_0)$ へ写る様子を示している. すなわち, 接ベクトルの向きと
+大きさの変化はヤコビ行列が与える線形変換に一致することを視覚化したものである. 
 
 \begin{figure}[H]
   \centering
@@ -189,6 +354,26 @@
 
 \subsection{複素微分可能性と微分}
 複素関数の微分は, 実二変数の微分よりも厳しい条件を課す. 
+具体的には, $\mathbb{R}^2$ の微分可能性では「ある線形写像 $L$ で一次近似できること」だけが要請されるのに対し,
+複素微分可能性では
+\begin{mathpad}
+  \[
+    \lim_{h\to 0}\dfrac{f(z_0+h)-f(z_0)}{h}
+  \]
+\end{mathpad}
+が $h\in\mathbb{C}$ のどの方向から近づけても同一値になる必要がある. 
+これはヤコビ行列が
+\begin{mathpad}
+  \[
+    \begin{pmatrix}
+      a & -b\\
+      b & a
+    \end{pmatrix}
+  \]
+\end{mathpad}
+という「複素数の掛け算」に対応する特別な形に限られることを意味する. 
+その結果, 一般の全微分可能性に比べて
+コーシー・リーマン方程式という追加条件が課され, 方向依存のずれが完全に消えることが求められる. 
 
 \begin{definition}{複素微分可能性}{def:complex-differentiability}
   点 $z_0$ の近くで定義された複素関数 $f$ に対し
@@ -256,15 +441,83 @@
   (\blacksquare) %chktex 12
 \end{tproof}
 
-\begin{example}{$f(z)=z^2$ の微分}{ex:complex-derivative-square}
-  $f(z)=z^2$ は全ての $z$ で複素微分可能であり
-  \begin{mathpad}
+\begin{exproblem}{複素微分可能性の判定}{exprob:complex-diff-check}
+  次の各関数について, 任意の $z\in\mathbb{C}$ での複素微分可能性を判定せよ. 
+  \begin{enumerate}[label=(\arabic*), itemsep=6pt, topsep=6pt, leftmargin=3.0em] %chktex 36
+    \item $f(z)=\overline{z}$.
+    \item $f(z)=\dfrac{\:\:\overline{z}^2}{z}$ $(z\neq 0)$, $f(0)=0$.
+    \item $f(z)=az+b$ $(a,b\in\mathbb{C})$.
+  \end{enumerate}
+  \tcblower{}
+  \textbf{【解答】}\par
+  \begin{pstep}{1}
+    $z=x+iy$ とおくと 
+    \begin{mathpad}
     \[
-      f'(z)=2z
+      u(x,y)=x,\:\:v(x,y)=-y
+    \]
+    \end{mathpad}
+    であり, 
+    \begin{mathpad}
+    \[
+    u_x=1,\:u_y=0,\:v_x=0,\:v_y=-1
     \]
   \end{mathpad}
-  が成立する. 
-\end{example}
+    が全ての $(x,y)$ で成り立つ. 
+    したがって任意の点で 
+    \begin{mathpad}
+    \[
+    u_x\neq v_y
+    \]
+    \end{mathpad}
+    となり, コーシー・リーマン方程式は全ての $z$ で不成立である. 
+    よって $f(z)=\overline{z}$ は任意の $z$ で複素微分可能でない. 
+  \end{pstep}
+  \begin{pstep}{2}
+    $z\neq 0$ では $z=re^{i\theta}$ と書けば
+    \begin{mathpad}
+      \[
+        f(z)=\dfrac{\overline{z}\:^2}{z}
+        =\dfrac{r^2 e^{-2i\theta}}{re^{i\theta}}
+        =r e^{-3i\theta}
+      \]
+    \end{mathpad}
+    となる. よって 
+    \begin{mathpad}
+    \[
+      u=r\cos(3\theta),\:\:v=-r\sin(3\theta)
+    \]
+    \end{mathpad}
+    と表され, 
+    $u_x$ と $v_y$ は一般に一致せず, $z\neq 0$ の任意の点でコーシー・リーマン方程式は成り立たない. 
+    さらに $z=0$ においては $h=re^{i\theta}$ とおくと
+    \begin{mathpad}
+      \[
+        \dfrac{f(h)-f(0)}{h}
+        =
+        \dfrac{\:\:\overline{h}^2}{h^2}
+        =
+        e^{-4i\theta}
+      \]
+    \end{mathpad}
+    となり, $r\to 0$ での極限が $\theta$ に依存するため微分係数は存在しない. 
+    よって $f$ は任意の $z$ で複素微分可能でない. 
+  \end{pstep}
+  \begin{pstep}{3}
+    任意の $z\in\mathbb{C}$ をとり $h\to 0$ とすると
+    \begin{mathpad}
+      \[
+        \dfrac{f(z+h)-f(z)}{h}
+        =
+        \dfrac{a(z+h)+b-(az+b)}{h}
+        =
+        a
+      \]
+    \end{mathpad}
+    となり, 極限は常に $a$ に一致する. 
+    よって $f$ は任意の $z$ で複素微分可能であり $f'(z)=a$ が成り立つ. 
+  \end{pstep}
+\end{exproblem}
 
 \end{flushleft}
 \end{document}
